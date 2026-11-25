@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="515" viewBox="0 0 400 515" role="img" aria-labelledby="title desc" xml:lang="ko">
+  <title id="title">NIHON · 음원 재생 성능표</title>
+  <desc id="desc">미리 받기 전후로 여행자 대기 시간은 325ms에서 11ms, 상대는 323ms에서 14ms, MY 미리 듣기는 356ms에서 46ms로 줄었습니다. 300ms 지연을 둔 로컬 측정의 5회 중앙값입니다.</desc>
+  <style>
+    text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.3px; }
+    .en { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.35px; }
+    .ja { font-family: "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; letter-spacing: -.8px; }
+    .num { font-family: "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.7px; }
+    .animated-bar { transform-box: fill-box; transform-origin: left center; }
+    @media (prefers-reduced-motion: no-preference) {
+      .animated-bar { animation: measure 8s ease-out infinite both; animation-delay: var(--lag, 0s); }
+    }
+    @keyframes measure { 0%, 9% {transform:scaleX(0)} 27%, 90% {transform:scaleX(1)} 95%,100% {transform:scaleX(0)} }
+  </style>
+  <defs>
+    <symbol id="app-mark" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="112" fill="#BC002D"/>
+      <path d="M256 65 C358.724 65 442 148.276 442 251 C442 353.724 358.724 437 256 437 C225.344 437 196.411 429.594 170.922 416.333 C167.306 414.439 163 414.267 158.867 415.989 L110.128 438.378 C94.111 445.439 80.333 435.967 84.122 421.844 C85.328 417.711 87.739 414.439 90.667 410.822 L114.433 376.033 C117.878 371.211 117.878 367.25 114.089 362.428 C86.706 330.05 70 291.472 70 251 C70 148.276 153.276 65 256 65Z" fill="#FFFFFF"/>
+      <path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z" fill="#BC002D"/>
+      <path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z" fill="#BC002D"/>
+      <path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z" fill="#BC002D"/>
+    </symbol>
+    <symbol id="wordmark" viewBox="0 0 1080 224">
+      <path d="M18 4H42C48 4 52 6 56 11L162 132V18C162 10.268 168.268 4 176 4H200C207.732 4 214 10.268 214 18V202C214 209.732 207.732 216 200 216H176C170 216 166 214 162 209L56 89V202C56 209.732 49.732 216 42 216H18C10.268 216 4 209.732 4 202V18C4 10.268 10.268 4 18 4Z" fill="#24272D"/>
+      <path d="M286 4H310C317.732 4 324 10.268 324 18V202C324 209.732 317.732 216 310 216H286C278.268 216 272 209.732 272 202V18C272 10.268 278.268 4 286 4Z" fill="#24272D"/>
+      <path d="M396 4H420C427.732 4 434 10.268 434 18V84H530V18C530 10.268 536.268 4 544 4H568C575.732 4 582 10.268 582 18V202C582 209.732 575.732 216 568 216H544C536.268 216 530 209.732 530 202V130H434V202C434 209.732 427.732 216 420 216H396C388.268 216 382 209.732 382 202V18C382 10.268 388.268 4 396 4Z" fill="#24272D"/>
+      <path d="M880 4H904C910 4 914 6 918 11L1024 132V18C1024 10.268 1030.268 4 1038 4H1062C1069.732 4 1076 10.268 1076 18V202C1076 209.732 1069.732 216 1062 216H1038C1032 216 1028 214 1024 209L918 89V202C918 209.732 911.732 216 904 216H880C872.268 216 866 209.732 866 202V18C866 10.268 872.268 4 880 4Z" fill="#24272D"/>
+      <path d="M724 4 C783.646 4 832 52.354 832 112 C832 171.646 783.646 220 724 220 C706.2 220 689.4 215.7 674.6 208 C672.5 206.9 670 206.8 667.6 207.8 L639.3 220.8 C630 224.9 622 219.4 624.2 211.2 C624.9 208.8 626.3 206.9 628 204.8 L641.8 184.6 C643.8 181.8 643.8 179.5 641.6 176.7 C625.7 157.9 616 135.5 616 112 C616 52.354 664.354 4 724 4Z" fill="#BC002D"/>
+    </symbol>
+  </defs>
+  <rect x="0" y="0" width="400" height="515" rx="0" fill="#FFFFFF"/>
+  <g id="diagram-header">
+    <use href="#app-mark" x="18" y="19" width="25" height="25"/>
+    <use href="#wordmark" x="50" y="24" width="69" height="15"/>
+    <text x="136" y="36" font-size="11.2" font-weight="650" fill="#BC002D" class="en">PERFORMANCE</text>
+    <text x="382" y="36" font-size="12.5" font-weight="460" fill="#475467" text-anchor="end">음원 재생 대기 시간</text>
+    <path d="M18 57H382" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  </g>
+  <text x="20" y="95" font-size="22" font-weight="700" fill="#24272D">음원을 누른 뒤 재생까지</text>
+  <text x="20" y="121" font-size="14.5" font-weight="455" fill="#475467">MP3 요청 300ms 지연 · 5회 중앙값</text>
+  <rect x="20" y="141" width="11" height="8" rx="0" fill="#8794A5"/>
+  <text x="38" y="150" font-size="14" font-weight="510" fill="#475467">미리 받기 전</text>
+  <rect x="156" y="141" width="11" height="8" rx="0" fill="#BC002D"/>
+  <text x="174" y="150" font-size="14" font-weight="510" fill="#475467">미리 받은 뒤</text>
+  <path d="M20 170H380" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <text x="20" y="197" font-size="19" font-weight="700" fill="#24272D">내가 할 말</text>
+  <text x="380" y="196" font-size="13.8" font-weight="450" fill="#475467" text-anchor="end">호노카 · 2인 문장</text>
+  <rect x="22" y="217" width="237" height="6" rx="0" fill="#F1F3F6"/>
+  <rect x="22" y="217" width="192.562" height="6" rx="0" fill="#D7DDE4"/>
+  <rect x="22" y="217" width="192.562" height="6" rx="0" fill="#8794A5" class="animated-bar" style="--lag:-0.65s"/>
+  <text x="380" y="226" font-size="18" font-weight="500" fill="#475467" text-anchor="end" class="num">325 ms</text>
+  <rect x="22" y="239" width="237" height="6" rx="0" fill="#F1F3F6"/>
+  <rect x="22" y="239" width="6.5175" height="6" rx="0" fill="#E8D0D7"/>
+  <rect x="22" y="239" width="6.5175" height="6" rx="0" fill="#BC002D" class="animated-bar" style="--lag:-0.49s"/>
+  <text x="380" y="248" font-size="18" font-weight="690" fill="#BC002D" text-anchor="end" class="num">11 ms</text>
+  <path d="M20 271H380" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <text x="20" y="298" font-size="19" font-weight="700" fill="#24272D">상대의 말</text>
+  <text x="380" y="297" font-size="13.8" font-weight="450" fill="#475467" text-anchor="end">쇼조 박사 · 자리 안내</text>
+  <rect x="22" y="318" width="237" height="6" rx="0" fill="#F1F3F6"/>
+  <rect x="22" y="318" width="191.377" height="6" rx="0" fill="#D7DDE4"/>
+  <rect x="22" y="318" width="191.377" height="6" rx="0" fill="#8794A5" class="animated-bar" style="--lag:-0.43s"/>
+  <text x="380" y="327" font-size="18" font-weight="500" fill="#475467" text-anchor="end" class="num">323 ms</text>
+  <rect x="22" y="340" width="237" height="6" rx="0" fill="#F1F3F6"/>
+  <rect x="22" y="340" width="8.295" height="6" rx="0" fill="#E8D0D7"/>
+  <rect x="22" y="340" width="8.295" height="6" rx="0" fill="#BC002D" class="animated-bar" style="--lag:-0.27s"/>
+  <text x="380" y="349" font-size="18" font-weight="690" fill="#BC002D" text-anchor="end" class="num">14 ms</text>
+  <path d="M20 372H380" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <text x="20" y="399" font-size="19" font-weight="700" fill="#24272D">MY 미리 듣기</text>
+  <text x="380" y="398" font-size="13.8" font-weight="450" fill="#475467" text-anchor="end">아이다 시게루 · 예문</text>
+  <rect x="22" y="419" width="237" height="6" rx="0" fill="#F1F3F6"/>
+  <rect x="22" y="419" width="210.93" height="6" rx="0" fill="#D7DDE4"/>
+  <rect x="22" y="419" width="210.93" height="6" rx="0" fill="#8794A5" class="animated-bar" style="--lag:-0.21s"/>
+  <text x="380" y="428" font-size="18" font-weight="500" fill="#475467" text-anchor="end" class="num">356 ms</text>
+  <rect x="22" y="441" width="237" height="6" rx="0" fill="#F1F3F6"/>
+  <rect x="22" y="441" width="27.255" height="6" rx="0" fill="#E8D0D7"/>
+  <rect x="22" y="441" width="27.255" height="6" rx="0" fill="#BC002D" class="animated-bar" style="--lag:-0.05s"/>
+  <text x="380" y="450" font-size="18" font-weight="690" fill="#BC002D" text-anchor="end" class="num">46 ms</text>
+  <text x="20" y="491" font-size="13.7" font-weight="470" fill="#5F6B7B">눈금 0–400 ms · 2026.11.24</text>
+</svg>

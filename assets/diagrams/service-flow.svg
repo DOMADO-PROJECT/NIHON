@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="850" viewBox="0 0 1280 850" role="img" aria-labelledby="title desc" xml:lang="ko">
+  <title id="title">NIHON · 다섯 탭의 서비스 흐름</title>
+  <desc id="desc">상황에서는 회화를 찾고 연습하거나 오프라인 사용을 준비합니다. 대화에서는 서로의 말을 번역하고 번역 탭에서는 문장을 입력하고 수정합니다. 저장한 표현은 같은 인원으로 다시 열 수 있습니다. MY에서는 두 역할의 목소리를 미리 듣고 고릅니다.</desc>
+  <style>
+    text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.3px; }
+    .en { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.35px; }
+    .ja { font-family: "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; letter-spacing: -.8px; }
+    .num { font-family: "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.7px; }
+    .trace, .tip { opacity: 0; }
+    .trace { stroke-dasharray: 1; stroke-dashoffset: 1; }
+    @media (prefers-reduced-motion: no-preference) {
+      .trace { animation: draw var(--cycle,7s) var(--offset,0s) ease-in-out infinite both; }
+      .tip { animation: arrive var(--cycle,7s) var(--offset,0s) ease-in-out infinite both; }
+    }
+    @keyframes draw { 0%,5% {opacity:0;stroke-dashoffset:1} 10% {opacity:1;stroke-dashoffset:1} 28%,54% {opacity:1;stroke-dashoffset:0} 68%,100% {opacity:0;stroke-dashoffset:0} }
+    @keyframes arrive { 0%,26%,68%,100% {opacity:0} 32%,54% {opacity:1} }
+  </style>
+  <defs>
+    <symbol id="app-mark" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="112" fill="#BC002D"/>
+      <path d="M256 65 C358.724 65 442 148.276 442 251 C442 353.724 358.724 437 256 437 C225.344 437 196.411 429.594 170.922 416.333 C167.306 414.439 163 414.267 158.867 415.989 L110.128 438.378 C94.111 445.439 80.333 435.967 84.122 421.844 C85.328 417.711 87.739 414.439 90.667 410.822 L114.433 376.033 C117.878 371.211 117.878 367.25 114.089 362.428 C86.706 330.05 70 291.472 70 251 C70 148.276 153.276 65 256 65Z" fill="#FFFFFF"/>
+      <path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z" fill="#BC002D"/>
+      <path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z" fill="#BC002D"/>
+      <path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z" fill="#BC002D"/>
+    </symbol>
+    <symbol id="wordmark" viewBox="0 0 1080 224">
+      <path d="M18 4H42C48 4 52 6 56 11L162 132V18C162 10.268 168.268 4 176 4H200C207.732 4 214 10.268 214 18V202C214 209.732 207.732 216 200 216H176C170 216 166 214 162 209L56 89V202C56 209.732 49.732 216 42 216H18C10.268 216 4 209.732 4 202V18C4 10.268 10.268 4 18 4Z" fill="#24272D"/>
+      <path d="M286 4H310C317.732 4 324 10.268 324 18V202C324 209.732 317.732 216 310 216H286C278.268 216 272 209.732 272 202V18C272 10.268 278.268 4 286 4Z" fill="#24272D"/>
+      <path d="M396 4H420C427.732 4 434 10.268 434 18V84H530V18C530 10.268 536.268 4 544 4H568C575.732 4 582 10.268 582 18V202C582 209.732 575.732 216 568 216H544C536.268 216 530 209.732 530 202V130H434V202C434 209.732 427.732 216 420 216H396C388.268 216 382 209.732 382 202V18C382 10.268 388.268 4 396 4Z" fill="#24272D"/>
+      <path d="M880 4H904C910 4 914 6 918 11L1024 132V18C1024 10.268 1030.268 4 1038 4H1062C1069.732 4 1076 10.268 1076 18V202C1076 209.732 1069.732 216 1062 216H1038C1032 216 1028 214 1024 209L918 89V202C918 209.732 911.732 216 904 216H880C872.268 216 866 209.732 866 202V18C866 10.268 872.268 4 880 4Z" fill="#24272D"/>
+      <path d="M724 4 C783.646 4 832 52.354 832 112 C832 171.646 783.646 220 724 220 C706.2 220 689.4 215.7 674.6 208 C672.5 206.9 670 206.8 667.6 207.8 L639.3 220.8 C630 224.9 622 219.4 624.2 211.2 C624.9 208.8 626.3 206.9 628 204.8 L641.8 184.6 C643.8 181.8 643.8 179.5 641.6 176.7 C625.7 157.9 616 135.5 616 112 C616 52.354 664.354 4 724 4Z" fill="#BC002D"/>
+    </symbol>
+  </defs>
+  <rect x="0" y="0" width="1280" height="850" rx="0" fill="#FFFFFF"/>
+  <g id="diagram-header">
+    <use href="#app-mark" x="40" y="25" width="33" height="33"/>
+    <use href="#wordmark" x="85" y="30" width="115" height="24"/>
+    <text x="232" y="50" font-size="16" font-weight="650" fill="#BC002D" class="en">USER FLOW</text>
+    <text x="1240" y="50" font-size="16" font-weight="460" fill="#475467" text-anchor="end">다섯 탭의 이용 경로</text>
+    <path d="M40 80H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  </g>
+  <text x="40" y="126" font-size="17" font-weight="520" fill="#5F6B7B">탭</text>
+  <text x="208" y="126" font-size="17" font-weight="520" fill="#5F6B7B">시작</text>
+  <text x="610" y="126" font-size="17" font-weight="520" fill="#5F6B7B">선택 · 실행</text>
+  <text x="960" y="126" font-size="17" font-weight="520" fill="#5F6B7B">다음 동작</text>
+  <path d="M40 149H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <g transform="translate(43 161) scale(1.16667)" stroke="#BC002D" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2" transform="rotate(9 17.5 6.5)"/><rect x="3" y="14" width="7" height="6.5" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></g>
+  <text x="84" y="184" font-size="30" font-weight="710" fill="#24272D">상황</text>
+  <text x="208" y="184" font-size="23" font-weight="675" fill="#24272D">상황 선택 · 한국어 검색</text>
+  <text x="208" y="213" font-size="18" font-weight="450" fill="#475467">식당·카페 / 편의점·쇼핑 / 교통·길찾기</text>
+  <text x="208" y="238" font-size="18" font-weight="450" fill="#475467">숙소 / 공항 / 도움 요청</text>
+  <text x="610" y="184" font-size="23" font-weight="675" fill="#24272D">행동별 회화 · 인원 선택</text>
+  <text x="610" y="213" font-size="18" font-weight="450" fill="#475467">일본어, 한글 발음, 뜻</text>
+  <text x="960" y="184" font-size="23" font-weight="675" fill="#24272D">듣기 · 크게 보여주기 · 저장</text>
+  <text x="960" y="213" font-size="18" font-weight="450" fill="#475467">예상 상대 말 펼치기 → 이어서 할 말</text>
+  <g style="--offset:0s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 177H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 172.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 177H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 172.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-0.9s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 177H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 172.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 177H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 172.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <text x="208" y="292" font-size="23" font-weight="675" fill="#24272D">출발 전 10문장</text>
+  <text x="610" y="292" font-size="23" font-weight="675" fill="#24272D">한국어 뜻 보고 떠올리기</text>
+  <text x="960" y="292" font-size="23" font-weight="675" fill="#24272D">일본어 펼치기 · 다음 문장</text>
+  <g style="--offset:-0.55s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 285H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 280.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 285H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 280.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-1.45s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 285H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 280.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 285H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 280.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <text x="208" y="337" font-size="23" font-weight="675" fill="#24272D">인터넷 없이 준비하기</text>
+  <text x="610" y="337" font-size="23" font-weight="675" fill="#24272D">회화와 역할별 음원 받기</text>
+  <text x="960" y="337" font-size="23" font-weight="675" fill="#24272D">오프라인에서 검색 · 재생</text>
+  <g style="--offset:-1.1s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 330H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 325.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 330H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 325.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-2s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 330H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 325.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 330H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 325.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <path d="M40 378H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <g transform="translate(43 390) scale(1.16667)" stroke="#BC002D" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M7 4h10a5 5 0 0 1 5 5v4a5 5 0 0 1-5 5h-6l-5.5 3 .8-4A5 5 0 0 1 2 12V9a5 5 0 0 1 5-5Z"/><path d="M8 10v2m4-4v6m4-4v2"/></g>
+  <text x="84" y="413" font-size="30" font-weight="710" fill="#24272D">대화</text>
+  <text x="208" y="413" font-size="23" font-weight="675" fill="#24272D">내가 말하기 / 상대가 말하기</text>
+  <text x="208" y="442" font-size="18" font-weight="450" fill="#475467">화자를 고르고 한 문장 말하기</text>
+  <text x="610" y="413" font-size="23" font-weight="675" fill="#24272D">한국어 → 일본어</text>
+  <text x="610" y="442" font-size="18" font-weight="450" fill="#475467">상대가 말하면 일본어 → 한국어</text>
+  <text x="960" y="413" font-size="23" font-weight="675" fill="#24272D">원문과 번역문 · 일본어 듣기</text>
+  <text x="960" y="442" font-size="18" font-weight="450" fill="#475467">대화 기록 다시 보기 · 비우기</text>
+  <g style="--offset:-0.95s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 406H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 401.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 406H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 401.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-1.85s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 406H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 401.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 406H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 401.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <path d="M40 489H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <g transform="translate(43 501) scale(1.16667)" stroke="#BC002D" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M2 6h12M8 3v3m4 0c-1 6-4 9-9 12M5 9c1.5 3.3 3.5 5.3 6.5 7.3M13 21l4.4-11 4.4 11m-7.2-3.8h5.6"/></g>
+  <text x="84" y="524" font-size="30" font-weight="710" fill="#24272D">번역</text>
+  <text x="208" y="524" font-size="23" font-weight="675" fill="#24272D">한국어·일본어 입력</text>
+  <text x="208" y="553" font-size="18" font-weight="450" fill="#475467">원문을 적고 번역 누르기</text>
+  <text x="610" y="524" font-size="23" font-weight="675" fill="#24272D">수록 회화는 기기에서</text>
+  <text x="610" y="553" font-size="18" font-weight="450" fill="#475467">자유 문장은 온라인 번역</text>
+  <text x="960" y="524" font-size="23" font-weight="675" fill="#24272D">번역문 확인 · 복사 · 듣기</text>
+  <text x="960" y="553" font-size="18" font-weight="450" fill="#475467">원문 수정 · 마지막 입력 복원</text>
+  <g style="--offset:-1.9s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 517H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 512.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 517H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 512.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-2.8s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 517H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 512.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 517H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 512.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <path d="M40 600H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <g transform="translate(43 612) scale(1.16667)" stroke="#BC002D" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M7.8 3.2h8.4a2 2 0 0 1 2 2V20c0 .7-.6 1-1.2.6L12 17l-5 3.6c-.6.4-1.2-.1-1.2-.6V5.2a2 2 0 0 1 2-2Z"/></g>
+  <text x="84" y="635" font-size="30" font-weight="710" fill="#24272D">저장</text>
+  <text x="208" y="635" font-size="23" font-weight="675" fill="#24272D">저장한 표현 선택</text>
+  <text x="208" y="664" font-size="18" font-weight="450" fill="#475467">검색하거나 회화에서 저장한 문장</text>
+  <text x="610" y="635" font-size="23" font-weight="675" fill="#24272D">선택한 인원으로 다시 열기</text>
+  <text x="610" y="664" font-size="18" font-weight="450" fill="#475467">저장할 때 고른 표현과 인원 유지</text>
+  <text x="960" y="635" font-size="23" font-weight="675" fill="#24272D">회화 다시 듣기 · 크게 보기</text>
+  <text x="960" y="664" font-size="18" font-weight="450" fill="#475467">저장함에서 바로 해제</text>
+  <g style="--offset:-2.85s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 628H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 623.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 628H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 623.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-3.75s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 628H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 623.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 628H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 623.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <path d="M40 711H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+  <g transform="translate(43 723) scale(1.16667)" stroke="#BC002D" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="12" cy="7" r="3.7"/><path d="M4.5 20c.4-4 3.4-6.3 7.5-6.3s7.1 2.3 7.5 6.3"/></g>
+  <text x="84" y="746" font-size="30" font-weight="710" fill="#24272D">MY</text>
+  <text x="208" y="746" font-size="23" font-weight="675" fill="#24272D">내가 할 말 / 상대의 말</text>
+  <text x="208" y="775" font-size="18" font-weight="450" fill="#475467">목소리를 바꿀 역할 선택</text>
+  <text x="610" y="746" font-size="23" font-weight="675" fill="#24272D">다섯 목소리 미리 듣기</text>
+  <text x="610" y="775" font-size="18" font-weight="450" fill="#475467">마이 · 니세 · 아이다 시게루</text>
+  <text x="610" y="800" font-size="18" font-weight="450" fill="#475467">호노카 · 쇼조 박사</text>
+  <text x="960" y="746" font-size="23" font-weight="675" fill="#24272D">이 목소리로 설정</text>
+  <text x="960" y="775" font-size="18" font-weight="450" fill="#475467">역할별로 다음 재생에 반영</text>
+  <g style="--offset:-3.8s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M525 739H577" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M571 734.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M525 739H577" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M571 734.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+  <g style="--offset:-4.7s" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M868 739H931" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M925 734.86l6 4.14 -6 4.14" fill="none" stroke="#AAB3BF" stroke-width="1.7"/>
+    <path d="M868 739H931" fill="none" stroke="#BC002D" stroke-width="2.1" class="trace" pathLength="1"/>
+    <path d="M925 734.86l6 4.14 -6 4.14" fill="none" stroke="#BC002D" stroke-width="2.1" class="tip"/>
+  </g>
+</svg>
