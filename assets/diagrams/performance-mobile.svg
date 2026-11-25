@@ -1,17 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="515" viewBox="0 0 400 515" role="img" aria-labelledby="title desc" xml:lang="ko">
-  <title id="title">NIHON · 음원 재생 성능표</title>
-  <desc id="desc">미리 받기 전후로 여행자 대기 시간은 325ms에서 11ms, 상대는 323ms에서 14ms, MY 미리 듣기는 356ms에서 46ms로 줄었습니다. 300ms 지연을 둔 로컬 측정의 5회 중앙값입니다.</desc>
-  <style>
-    text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.3px; }
-    .en { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.35px; }
-    .ja { font-family: "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; letter-spacing: -.8px; }
-    .num { font-family: "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.7px; }
-    .animated-bar { transform-box: fill-box; transform-origin: left center; }
-    @media (prefers-reduced-motion: no-preference) {
-      .animated-bar { animation: measure 8s ease-out infinite both; animation-delay: var(--lag, 0s); }
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="658" viewBox="0 0 400 658" role="img" aria-labelledby="title desc" xml:lang="ko">
+  <title id="title">NIHON · 음원 요청 시점을 옮겨 줄인 재생 대기</title>
+  <desc id="desc">기존 구현은 재생 버튼을 눌러야 MP3를 요청했습니다. 최적화한 구현은 회화가 보이거나 MY에서 목소리를 고를 때 음원을 요청하고, 누르면 준비한 오디오로 재생합니다. 버튼을 누른 뒤 재생이 시작되기까지 중앙값은 내 말 325ms에서 11ms, 상대 말 323ms에서 14ms, MY 예문 356ms에서 46ms였습니다. 로컬 Chrome에서 MP3 요청을 300ms 늦추고 각 조건을 다섯 번 측정했습니다.</desc>
+  <style>text {font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;letter-spacing:-.35px}
+    .en {font-family:"Helvetica Neue",Arial,sans-serif;letter-spacing:1.15px}
+    .n {font-family:"Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.75px}
+    .signal,.focus {opacity:0;pointer-events:none}
+    @media (prefers-reduced-motion:no-preference) {
+      .signal {stroke-dasharray:13 110;animation:travel 5.8s var(--delay,0s) ease-in-out infinite}
+      .focus {animation:focus 5.8s var(--delay,0s) ease-out infinite;transform-box:fill-box;transform-origin:center}
     }
-    @keyframes measure { 0%, 9% {transform:scaleX(0)} 27%, 90% {transform:scaleX(1)} 95%,100% {transform:scaleX(0)} }
-  </style>
+    @keyframes travel {0%,4%{stroke-dashoffset:15;opacity:0}12%{opacity:1}48%{stroke-dashoffset:-101;opacity:1}55%,100%{stroke-dashoffset:-105;opacity:0}}
+    @keyframes focus {0%,6%{opacity:0;transform:scale(.75)}17%{opacity:.52}38%,100%{opacity:0;transform:scale(1.45)}}</style>
   <defs>
     <symbol id="app-mark" viewBox="0 0 512 512">
       <rect width="512" height="512" rx="112" fill="#BC002D"/>
@@ -28,52 +27,55 @@
       <path d="M724 4 C783.646 4 832 52.354 832 112 C832 171.646 783.646 220 724 220 C706.2 220 689.4 215.7 674.6 208 C672.5 206.9 670 206.8 667.6 207.8 L639.3 220.8 C630 224.9 622 219.4 624.2 211.2 C624.9 208.8 626.3 206.9 628 204.8 L641.8 184.6 C643.8 181.8 643.8 179.5 641.6 176.7 C625.7 157.9 616 135.5 616 112 C616 52.354 664.354 4 724 4Z" fill="#BC002D"/>
     </symbol>
   </defs>
-  <rect x="0" y="0" width="400" height="515" rx="0" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="400" height="658" rx="0" fill="#FFFFFF"/>
   <g id="diagram-header">
-    <use href="#app-mark" x="18" y="19" width="25" height="25"/>
-    <use href="#wordmark" x="50" y="24" width="69" height="15"/>
-    <text x="136" y="36" font-size="11.2" font-weight="650" fill="#BC002D" class="en">PERFORMANCE</text>
-    <text x="382" y="36" font-size="12.5" font-weight="460" fill="#475467" text-anchor="end">음원 재생 대기 시간</text>
-    <path d="M18 57H382" fill="none" stroke="#E5E8ED" stroke-width="1"/>
+    <use href="#app-mark" x="18" y="18" width="25" height="25" color="#22262D"/>
+    <use href="#wordmark" x="50" y="23" width="70" height="15" color="#22262D"/>
+    <text x="133" y="35" font-size="11" font-weight="700" fill="#BC002D" text-anchor="start" class="en">PERFORMANCE</text>
+    <text x="382" y="35" font-size="12" font-weight="520" fill="#5E6877" text-anchor="end">탭부터 첫 소리까지</text>
+    <path d="M18 56H382" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
-  <text x="20" y="95" font-size="22" font-weight="700" fill="#24272D">음원을 누른 뒤 재생까지</text>
-  <text x="20" y="121" font-size="14.5" font-weight="455" fill="#475467">MP3 요청 300ms 지연 · 5회 중앙값</text>
-  <rect x="20" y="141" width="11" height="8" rx="0" fill="#8794A5"/>
-  <text x="38" y="150" font-size="14" font-weight="510" fill="#475467">미리 받기 전</text>
-  <rect x="156" y="141" width="11" height="8" rx="0" fill="#BC002D"/>
-  <text x="174" y="150" font-size="14" font-weight="510" fill="#475467">미리 받은 뒤</text>
-  <path d="M20 170H380" fill="none" stroke="#E5E8ED" stroke-width="1"/>
-  <text x="20" y="197" font-size="19" font-weight="700" fill="#24272D">내가 할 말</text>
-  <text x="380" y="196" font-size="13.8" font-weight="450" fill="#475467" text-anchor="end">호노카 · 2인 문장</text>
-  <rect x="22" y="217" width="237" height="6" rx="0" fill="#F1F3F6"/>
-  <rect x="22" y="217" width="192.562" height="6" rx="0" fill="#D7DDE4"/>
-  <rect x="22" y="217" width="192.562" height="6" rx="0" fill="#8794A5" class="animated-bar" style="--lag:-0.65s"/>
-  <text x="380" y="226" font-size="18" font-weight="500" fill="#475467" text-anchor="end" class="num">325 ms</text>
-  <rect x="22" y="239" width="237" height="6" rx="0" fill="#F1F3F6"/>
-  <rect x="22" y="239" width="6.5175" height="6" rx="0" fill="#E8D0D7"/>
-  <rect x="22" y="239" width="6.5175" height="6" rx="0" fill="#BC002D" class="animated-bar" style="--lag:-0.49s"/>
-  <text x="380" y="248" font-size="18" font-weight="690" fill="#BC002D" text-anchor="end" class="num">11 ms</text>
-  <path d="M20 271H380" fill="none" stroke="#E5E8ED" stroke-width="1"/>
-  <text x="20" y="298" font-size="19" font-weight="700" fill="#24272D">상대의 말</text>
-  <text x="380" y="297" font-size="13.8" font-weight="450" fill="#475467" text-anchor="end">쇼조 박사 · 자리 안내</text>
-  <rect x="22" y="318" width="237" height="6" rx="0" fill="#F1F3F6"/>
-  <rect x="22" y="318" width="191.377" height="6" rx="0" fill="#D7DDE4"/>
-  <rect x="22" y="318" width="191.377" height="6" rx="0" fill="#8794A5" class="animated-bar" style="--lag:-0.43s"/>
-  <text x="380" y="327" font-size="18" font-weight="500" fill="#475467" text-anchor="end" class="num">323 ms</text>
-  <rect x="22" y="340" width="237" height="6" rx="0" fill="#F1F3F6"/>
-  <rect x="22" y="340" width="8.295" height="6" rx="0" fill="#E8D0D7"/>
-  <rect x="22" y="340" width="8.295" height="6" rx="0" fill="#BC002D" class="animated-bar" style="--lag:-0.27s"/>
-  <text x="380" y="349" font-size="18" font-weight="690" fill="#BC002D" text-anchor="end" class="num">14 ms</text>
-  <path d="M20 372H380" fill="none" stroke="#E5E8ED" stroke-width="1"/>
-  <text x="20" y="399" font-size="19" font-weight="700" fill="#24272D">MY 미리 듣기</text>
-  <text x="380" y="398" font-size="13.8" font-weight="450" fill="#475467" text-anchor="end">아이다 시게루 · 예문</text>
-  <rect x="22" y="419" width="237" height="6" rx="0" fill="#F1F3F6"/>
-  <rect x="22" y="419" width="210.93" height="6" rx="0" fill="#D7DDE4"/>
-  <rect x="22" y="419" width="210.93" height="6" rx="0" fill="#8794A5" class="animated-bar" style="--lag:-0.21s"/>
-  <text x="380" y="428" font-size="18" font-weight="500" fill="#475467" text-anchor="end" class="num">356 ms</text>
-  <rect x="22" y="441" width="237" height="6" rx="0" fill="#F1F3F6"/>
-  <rect x="22" y="441" width="27.255" height="6" rx="0" fill="#E8D0D7"/>
-  <rect x="22" y="441" width="27.255" height="6" rx="0" fill="#BC002D" class="animated-bar" style="--lag:-0.05s"/>
-  <text x="380" y="450" font-size="18" font-weight="690" fill="#BC002D" text-anchor="end" class="num">46 ms</text>
-  <text x="20" y="491" font-size="13.7" font-weight="470" fill="#5F6B7B">눈금 0–400 ms · 2026.11.24</text>
+  <g id="result">
+    <text x="18" y="95" font-size="24" font-weight="720" fill="#22262D" text-anchor="start">MP3 요청을 문장이 뜰 때로</text>
+    <text x="18" y="126" font-size="24" font-weight="720" fill="#22262D" text-anchor="start">앞당겼습니다</text>
+    <text x="18" y="192" font-size="53" font-weight="710" fill="#BC002D" text-anchor="start" class="n">314 ms</text>
+    <text x="217" y="169" font-size="17" font-weight="650" fill="#22262D" text-anchor="start">‘두 명이에요.’</text>
+    <text x="217" y="192" font-size="16.5" font-weight="550" fill="#4D5968" text-anchor="start">첫 재생 대기 단축</text>
+  </g>
+  <g id="tap-timeline">
+    <text x="25" y="236" font-size="15" font-weight="590" fill="#4D5968" text-anchor="start">문장 표시</text>
+    <text x="256" y="236" font-size="16" font-weight="700" fill="#22262D" text-anchor="middle">재생 버튼 탭</text>
+    <path d="M29 246v159" fill="none" stroke="#CED4DB" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 4"/>
+    <path d="M256 246v166" fill="none" stroke="#687482" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 4"/>
+    <text x="41" y="285" font-size="17" font-weight="620" fill="#22262D" text-anchor="start">기존 · 탭에서 요청</text>
+    <path d="M29 306H256" fill="none" stroke="#DADEE4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M256 306H348.2" fill="none" stroke="#657080" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="256" cy="306" r="4" fill="#56606D"/>
+    <text x="261" y="295" font-size="13.5" font-weight="590" fill="#4D5968" text-anchor="start">MP3 요청</text>
+    <path d="M348.2 300l9 6-9 6Z" fill="#22262D" stroke="white" stroke-width="1.1" stroke-linejoin="round"/>
+    <text x="369" y="334" font-size="18" font-weight="650" fill="#22262D" text-anchor="end" class="n">325 ms</text>
+    <text x="41" y="369" font-size="17" font-weight="640" fill="#BC002D" text-anchor="start">최적화 · 문장이 뜰 때 요청</text>
+    <path d="M29 391H256" fill="none" stroke="#D99CAB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+    <path d="M29 391H256" fill="none" stroke="#BC002D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="signal" pathLength="100" style="--delay:.4s"/>
+    <circle cx="29" cy="391" r="4.8" fill="#BC002D"/>
+    <circle cx="29" cy="391" r="10" fill="none" stroke="#BC002D" stroke-width="2" class="focus" style="--delay:0s"/>
+    <text x="29" y="417" font-size="14" font-weight="610" fill="#BC002D" text-anchor="start">MP3 요청</text>
+    <path d="M256 391H259.12" fill="none" stroke="#BC002D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M259.12 385l9 6-9 6Z" fill="#BC002D" stroke="white" stroke-width="1.1" stroke-linejoin="round"/>
+    <circle cx="263.12" cy="391" r="9" fill="none" stroke="#BC002D" stroke-width="2" class="focus" style="--delay:2.4s"/>
+    <text x="275.12" y="397" font-size="19" font-weight="680" fill="#BC002D" text-anchor="start" class="n">11 ms</text>
+    <text x="378" y="426" font-size="13.5" font-weight="510" fill="#5E6877" text-anchor="end">▶ 재생 시작</text>
+  </g>
+  <g id="measurements">
+    <rect x="0" y="445" width="400" height="213" rx="0" fill="#F6F7F9"/>
+    <text x="18" y="477" font-size="16" font-weight="570" fill="#4D5968" text-anchor="start">내 말 · 호노카</text>
+    <text x="382" y="477" font-size="21" font-weight="660" fill="#22262D" text-anchor="end" class="n">325 → 11 ms</text>
+    <text x="18" y="516" font-size="16" font-weight="570" fill="#4D5968" text-anchor="start">상대 말 · 쇼조 박사</text>
+    <text x="382" y="516" font-size="21" font-weight="660" fill="#22262D" text-anchor="end" class="n">323 → 14 ms</text>
+    <text x="18" y="555" font-size="16" font-weight="570" fill="#4D5968" text-anchor="start">MY 미리 듣기 · 아이다 시게루</text>
+    <text x="382" y="555" font-size="21" font-weight="660" fill="#22262D" text-anchor="end" class="n">356 → 46 ms</text>
+    <path d="M18 579h364" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="18" y="606" font-size="14.7" font-weight="510" fill="#5E6877" text-anchor="start">로컬 Chrome · MP3 요청 300 ms 지연 · 각 5회 중앙값</text>
+    <text x="18" y="630" font-size="14.7" font-weight="510" fill="#5E6877" text-anchor="start">문장 표시 또는 목소리 선택 후 800 ms 대기</text>
+  </g>
 </svg>
