@@ -1,86 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="503" viewBox="0 0 1280 503" role="img" aria-labelledby="title desc" xml:lang="ko">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
   <title id="title">NIHON · 일본 여행 회화</title>
-  <desc id="desc">말이 서툴러도, 여행은 즐겁게. 앱 심벌의 に가 한 획씩 그려집니다. 식당에서 쓰는 二人です。와 말을 걸 때 쓰는 すみません。를 한글 발음과 뜻으로 읽습니다.</desc>
+  <desc id="desc">말이 서툴러도, 여행은 즐겁게. 일본에서 필요한 말, NIHON이 도와줄게요. 로고의 말풍선 안에 に가 한 획씩 그려지고 말풍선이 튀어 오릅니다.</desc>
   <style>
-    text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.3px; }
-    .en { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.35px; }
-    .ja { font-family: "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; letter-spacing: -.8px; }
-    .num { font-family: "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums; letter-spacing: -.7px; }
-    .phrase-b { opacity: 0; }
-    .under-ink { fill: #BC002D; }
-    .tile { transform-box: view-box; transform-origin: 256px 256px; transform: rotate(-7deg); }
-    .pen { fill: none; stroke: #BC002D; stroke-width: 56; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
-    @media (prefers-reduced-motion: no-preference) {
-      .under-ink { fill: #D05B78; }
-      .tile { animation: tilt 4.8s cubic-bezier(.37,0,.32,1) infinite; }
-      .pen { animation: ink 4.8s ease-out infinite; }
-      .pen.two { animation-name: ink-two; }
-      .pen.three { animation-name: ink-three; }
-      .phrase-a { animation: phrase 9.6s ease-in-out infinite both; }
-      .phrase-b { animation: phrase 9.6s -4.8s ease-in-out infinite both; }
-      .ground { animation: ground 4.8s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+    text {
+      font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      letter-spacing: -.3px;
     }
-    @keyframes tilt { 0%,100% { transform: translateY(0) rotate(-7deg); } 26% { transform: translateY(-10px) rotate(-2deg); } 45% { transform: translateY(2px) rotate(-4deg) scale(1.018,.985); } 65% { transform: translateY(-3px) rotate(-7deg); } }
-    @keyframes ink { 0%,38%,91%,100% { stroke-dashoffset:0 } 51%,61% { stroke-dashoffset:1 } 74% { stroke-dashoffset:0 } }
-    @keyframes ink-two { 0%,38%,91%,100% { stroke-dashoffset:0 } 51%,69% { stroke-dashoffset:1 } 80% { stroke-dashoffset:0 } }
-    @keyframes ink-three { 0%,38%,93%,100% { stroke-dashoffset:0 } 51%,76% { stroke-dashoffset:1 } 90% { stroke-dashoffset:0 } }
-    @keyframes phrase { 0%,42%,100% {opacity:1; transform:translateY(0)} 48% {opacity:0; transform:translateY(-7px)} 50%,93% {opacity:0; transform:translateY(7px)} }
-    @keyframes ground { 0%,65%,100% { transform:scaleX(1); opacity:.65 } 26% { transform:scaleX(.8); opacity:.37 } }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .bubble, .ink, .ink path, .headline, .subtitle {
+        animation-duration: 5s;
+        animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+        animation-iteration-count: infinite;
+      }
+
+      .bubble {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation-name: bounce;
+      }
+
+      .ink { animation-name: reset-ink; }
+      .ink path {
+        stroke-dasharray: 1;
+        animation-timing-function: ease-in-out;
+      }
+      .ink path:nth-child(1) { animation-name: write-first; }
+      .ink path:nth-child(2) { animation-name: write-second; }
+      .ink path:nth-child(3) { animation-name: write-third; }
+      .headline { animation-name: reveal-headline; }
+      .subtitle { animation-name: reveal-subtitle; }
+    }
+
+    @keyframes write-first {
+      0%, 4% { stroke-dashoffset: 1; }
+      8%, 100% { stroke-dashoffset: 0; }
+    }
+    @keyframes write-second {
+      0%, 8.2% { stroke-dashoffset: 1; }
+      11%, 100% { stroke-dashoffset: 0; }
+    }
+    @keyframes write-third {
+      0%, 11.2% { stroke-dashoffset: 1; }
+      15.2%, 100% { stroke-dashoffset: 0; }
+    }
+    @keyframes bounce {
+      0%, 16%, 26.4%, 100% { transform: none; }
+      17.2% {
+        transform: translateY(2%) scale(1.06, .92);
+        animation-timing-function: cubic-bezier(.333, .667, .667, 1);
+      }
+      20.6% {
+        transform: translateY(-14%) scale(.985, 1.035);
+        animation-timing-function: cubic-bezier(.333, 0, .667, .333);
+      }
+      23% { transform: translateY(1%) scale(1.045, .94); }
+      24.8% { transform: translateY(-3%) scale(.995, 1.018); }
+    }
+    @keyframes reveal-headline {
+      0%, 27.2%, 100% { opacity: 0; }
+      33.6%, 92% { opacity: 1; }
+    }
+    @keyframes reveal-subtitle {
+      0%, 30.4%, 100% { opacity: 0; }
+      37.2%, 92% { opacity: 1; }
+    }
+    @keyframes reset-ink {
+      0%, 92% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
-  <defs>
-    <symbol id="app-mark" viewBox="0 0 512 512">
-      <rect width="512" height="512" rx="112" fill="#BC002D"/>
-      <path d="M256 65 C358.724 65 442 148.276 442 251 C442 353.724 358.724 437 256 437 C225.344 437 196.411 429.594 170.922 416.333 C167.306 414.439 163 414.267 158.867 415.989 L110.128 438.378 C94.111 445.439 80.333 435.967 84.122 421.844 C85.328 417.711 87.739 414.439 90.667 410.822 L114.433 376.033 C117.878 371.211 117.878 367.25 114.089 362.428 C86.706 330.05 70 291.472 70 251 C70 148.276 153.276 65 256 65Z" fill="#FFFFFF"/>
-      <path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z" fill="#BC002D"/>
-      <path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z" fill="#BC002D"/>
-      <path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z" fill="#BC002D"/>
-    </symbol>
-    <symbol id="wordmark" viewBox="0 0 1080 224">
-      <path d="M18 4H42C48 4 52 6 56 11L162 132V18C162 10.268 168.268 4 176 4H200C207.732 4 214 10.268 214 18V202C214 209.732 207.732 216 200 216H176C170 216 166 214 162 209L56 89V202C56 209.732 49.732 216 42 216H18C10.268 216 4 209.732 4 202V18C4 10.268 10.268 4 18 4Z" fill="#24272D"/>
-      <path d="M286 4H310C317.732 4 324 10.268 324 18V202C324 209.732 317.732 216 310 216H286C278.268 216 272 209.732 272 202V18C272 10.268 278.268 4 286 4Z" fill="#24272D"/>
-      <path d="M396 4H420C427.732 4 434 10.268 434 18V84H530V18C530 10.268 536.268 4 544 4H568C575.732 4 582 10.268 582 18V202C582 209.732 575.732 216 568 216H544C536.268 216 530 209.732 530 202V130H434V202C434 209.732 427.732 216 420 216H396C388.268 216 382 209.732 382 202V18C382 10.268 388.268 4 396 4Z" fill="#24272D"/>
-      <path d="M880 4H904C910 4 914 6 918 11L1024 132V18C1024 10.268 1030.268 4 1038 4H1062C1069.732 4 1076 10.268 1076 18V202C1076 209.732 1069.732 216 1062 216H1038C1032 216 1028 214 1024 209L918 89V202C918 209.732 911.732 216 904 216H880C872.268 216 866 209.732 866 202V18C866 10.268 872.268 4 880 4Z" fill="#24272D"/>
+  <rect width="100%" height="100%" fill="#F6F7F9"/>
+  <svg x="460" y="103" width="360" height="75" viewBox="0 0 1080 224" overflow="visible">
+    <g fill="#24272D">
+      <path d="M18 4H42C48 4 52 6 56 11L162 132V18C162 10.268 168.268 4 176 4H200C207.732 4 214 10.268 214 18V202C214 209.732 207.732 216 200 216H176C170 216 166 214 162 209L56 89V202C56 209.732 49.732 216 42 216H18C10.268 216 4 209.732 4 202V18C4 10.268 10.268 4 18 4Z"/>
+      <path d="M286 4H310C317.732 4 324 10.268 324 18V202C324 209.732 317.732 216 310 216H286C278.268 216 272 209.732 272 202V18C272 10.268 278.268 4 286 4Z"/>
+      <path d="M396 4H420C427.732 4 434 10.268 434 18V84H530V18C530 10.268 536.268 4 544 4H568C575.732 4 582 10.268 582 18V202C582 209.732 575.732 216 568 216H544C536.268 216 530 209.732 530 202V130H434V202C434 209.732 427.732 216 420 216H396C388.268 216 382 209.732 382 202V18C382 10.268 388.268 4 396 4Z"/>
+      <path d="M880 4H904C910 4 914 6 918 11L1024 132V18C1024 10.268 1030.268 4 1038 4H1062C1069.732 4 1076 10.268 1076 18V202C1076 209.732 1069.732 216 1062 216H1038C1032 216 1028 214 1024 209L918 89V202C918 209.732 911.732 216 904 216H880C872.268 216 866 209.732 866 202V18C866 10.268 872.268 4 880 4Z"/>
+    </g>
+    <g class="bubble">
       <path d="M724 4 C783.646 4 832 52.354 832 112 C832 171.646 783.646 220 724 220 C706.2 220 689.4 215.7 674.6 208 C672.5 206.9 670 206.8 667.6 207.8 L639.3 220.8 C630 224.9 622 219.4 624.2 211.2 C624.9 208.8 626.3 206.9 628 204.8 L641.8 184.6 C643.8 181.8 643.8 179.5 641.6 176.7 C625.7 157.9 616 135.5 616 112 C616 52.354 664.354 4 724 4Z" fill="#BC002D"/>
-    </symbol>
-    <clipPath id="ni"><path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z"/><path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z"/><path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z"/></clipPath>
-    <filter id="shadow" x="-.5" y="-2" width="2" height="5"><feGaussianBlur stdDeviation="3"/></filter>
-  </defs>
-  <rect x="0" y="0" width="1280" height="503" rx="0" fill="#FFFFFF"/>
-  <g id="diagram-header">
-    <use href="#app-mark" x="40" y="25" width="33" height="33"/>
-    <use href="#wordmark" x="85" y="30" width="115" height="24"/>
-    <text x="232" y="50" font-size="16" font-weight="650" fill="#BC002D" class="en">OVERVIEW</text>
-    <text x="1240" y="50" font-size="16" font-weight="460" fill="#475467" text-anchor="end">일본 여행 회화</text>
-    <path d="M40 80H1240" fill="none" stroke="#E5E8ED" stroke-width="1"/>
-  </g>
-  <text x="64" y="228" font-size="74" font-weight="700" fill="#24272D">말이 서툴러도,</text>
-  <text x="64" y="321" font-size="74" font-weight="700" fill="#BC002D">여행은 즐겁게.</text>
-  <text x="68" y="384" font-size="25" font-weight="460" fill="#475467">주문부터 길 묻기까지,</text>
-  <text x="68" y="421" font-size="25" font-weight="460" fill="#475467">필요한 일본어를 찾아 읽거나 보여주세요.</text>
-  <ellipse class="ground" cx="980.9" cy="319.9" rx="60.8" ry="3.7" fill="#D3B3BC" opacity=".65" filter="url(#shadow)"/>
-  <svg x="879" y="120" width="196" height="196" viewBox="-28 -27 568 566" overflow="visible">
-    <g class="tile">
-      <rect x="27" y="34" width="458" height="458" rx="100" fill="#960325"/>
-      <rect x="27" y="22" width="458" height="458" rx="100" fill="#BC002D"/>
-      <g transform="translate(27 22) scale(.89453125)">
-        <path d="M256 65 C358.724 65 442 148.276 442 251 C442 353.724 358.724 437 256 437 C225.344 437 196.411 429.594 170.922 416.333 C167.306 414.439 163 414.267 158.867 415.989 L110.128 438.378 C94.111 445.439 80.333 435.967 84.122 421.844 C85.328 417.711 87.739 414.439 90.667 410.822 L114.433 376.033 C117.878 371.211 117.878 367.25 114.089 362.428 C86.706 330.05 70 291.472 70 251 C70 148.276 153.276 65 256 65Z" fill="#FFFFFF"/>
-        <path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z" class="under-ink"/>
-        <path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z" class="under-ink"/>
-        <path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z" class="under-ink"/>
-        <g clip-path="url(#ni)">
-          <path class="pen one" d="M198 144Q166 246 192 355" pathLength="1"/>
-          <path class="pen two" d="M215 197Q282 185 359 194" pathLength="1"/>
-          <path class="pen three" d="M266 247C252 256 236 268 236 286C235 312 280 321 357 309" pathLength="1"/>
+      <svg x="616" y="4" width="216" height="216" viewBox="70 65 372 372">
+        <defs>
+          <clipPath id="ni">
+            <path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z"/>
+            <path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z"/>
+            <path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z"/>
+          </clipPath>
+        </defs>
+        <g class="ink" clip-path="url(#ni)" fill="none" stroke="#FFFFFF" stroke-width="52">
+          <path d="M198 144Q166 246 192 355" pathLength="1"/>
+          <path d="M215 197Q282 185 359 194" pathLength="1"/>
+          <path d="M266 247C252 256 236 268 236 286C235 312 280 321 357 309" pathLength="1"/>
         </g>
-      </g>
+      </svg>
     </g>
   </svg>
-  <g class="phrase-a">
-    <text x="978" y="385" font-size="43" font-weight="650" fill="#24272D" text-anchor="middle" class="ja" lang="ja">二人です。</text>
-    <text x="978" y="425" font-size="21" font-weight="500" fill="#475467" text-anchor="middle">후타리데스 · 두 명이에요.</text>
-  </g>
-  <g class="phrase-b">
-    <text x="978" y="385" font-size="43" font-weight="650" fill="#24272D" text-anchor="middle" class="ja" lang="ja">すみません。</text>
-    <text x="978" y="425" font-size="21" font-weight="500" fill="#475467" text-anchor="middle">스미마센 · 실례합니다.</text>
-  </g>
+  <text class="headline" x="640" y="249" text-anchor="middle" fill="#24272D" font-size="44" font-weight="700">말이 서툴러도, 여행은 즐겁게.</text>
+  <text class="subtitle" x="640" y="298" text-anchor="middle" fill="#4B5B72" font-size="26">일본에서 필요한 말, NIHON이 도와줄게요.</text>
 </svg>

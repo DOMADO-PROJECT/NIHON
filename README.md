@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(max-width: 640px)" srcset="assets/diagrams/hero-mobile.svg">
-    <img src="assets/diagrams/hero.svg" width="1280" alt="NIHON 일본 여행 회화. 말이 서툴러도, 여행은 즐겁게. 앱 아이콘의 に가 한 획씩 그려지고 ‘두 명이에요.’와 ‘실례합니다.’가 일본어 원문, 한글 발음과 함께 번갈아 나타납니다.">
+    <img src="assets/diagrams/hero.svg" width="1280" alt="NIHON 일본 여행 회화. 말이 서툴러도, 여행은 즐겁게. 일본에서 필요한 말, NIHON이 도와줄게요.">
   </picture>
 </p>
 
