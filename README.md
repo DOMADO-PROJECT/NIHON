@@ -98,7 +98,14 @@ MY에서 다섯 목소리를 들어 보고 내 말과 상대의 말을 누가 �
   <img src="assets/diagrams/architecture.svg" width="1280" alt="수록 회화는 기기에서 찾고 표현과 기록은 localStorage에 저장합니다. 오프라인 준비는 서비스 워커가 화면과 음원을 Cache Storage에 담습니다. 수록되지 않은 문장은 Vercel을 거쳐 Azure Translator에서 번역합니다. 마이크 음성은 Vercel을 통해 임시 토큰을 받은 뒤 브라우저가 Azure Speech에 직접 보냅니다.">
 </picture>
 
-이전 아키텍처 도식 [데스크톱](assets/diagrams/architecture-original.svg) · [모바일](assets/diagrams/architecture-original-mobile.svg)
+<br>
+
+### 기능별 처리 흐름
+
+<picture>
+  <source media="(max-width: 640px)" srcset="assets/diagrams/architecture-steps-mobile.svg">
+  <img src="assets/diagrams/architecture-steps.svg" width="1280" alt="수록 회화 검색과 localStorage 저장, Cache Storage에 화면과 음원을 담는 오프라인 준비, Azure Translator 문자 번역, Azure Speech 음성 번역을 한 장면씩 보여줍니다.">
+</picture>
 
 <br>
 
