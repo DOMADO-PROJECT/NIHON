@@ -1,13 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="572" viewBox="0 0 400 572" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="608" viewBox="0 0 400 608" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
   <title id="title">NIHON · 다섯 탭의 이용 흐름</title>
-  <desc id="desc">상황에서 2명을 골라 회화를 저장하고, 대화에서 예약했다고 말하면 일본어 번역이 나타납니다. 번역에서는 직접 쓴 문장을 옮겨 복사하고, 저장에서는 회화를 다시 듣습니다. MY에서는 호노카의 예문을 듣고 내 말의 목소리로 설정합니다.</desc>
+  <desc id="desc">상황에서 2명을 골라 회화를 저장하고, 대화에서 예약했다고 말하면 일본어 번역이 나타납니다. 번역에서는 일본어 번역과 한글 발음 ‘후타리데스’를 확인한 뒤 번역문을 복사하고, 저장에서는 회화를 다시 듣습니다. MY에서는 호노카의 예문을 듣고 내 말의 목소리로 설정합니다.</desc>
   <style>
     :root {
       display: block;
       max-width: 100%;
       height: auto;
       margin-inline: auto;
-      --cycle: 30s;
+      --cycle: 40s;
+      --chevron-transform: scale(1.12);
       --ease-ui: cubic-bezier(.2, .8, .2, 1);
     }
     text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.35px; }
@@ -17,11 +18,11 @@
     .scene.first { visibility: visible; }
     .scene-tab { fill: #BC002D; color: #BC002D; font-weight: 720; }
     .scene-title { fill: #22262D; font-weight: 740; }
-    .chevron { color: #9BA6B5; }
+    .chevron { color: #9BA6B5; transform-box: fill-box; transform-origin: center; }
     .before, .during { opacity: 0; }
 
     @media (prefers-reduced-motion: no-preference) {
-      /* Each chapter gets six seconds. Cues are relative to its start on the same clock. */
+      /* 한 장면은 8초이며, --cue는 장면 시작 이후의 시간이다. */
       .scene, .press, .chevron, .next-step, .arrive, .selection, .before, .after, .during, .rest {
         animation-duration: var(--cycle);
         animation-delay: calc(var(--start) + var(--cue, 0s));
@@ -35,8 +36,9 @@
       .next-step { animation-name: ready; }
       .arrive { animation-name: reveal; }
       .selection { animation-name: choose; }
-      .before, .after { animation-name: swap; }
-      .during, .rest { animation-name: play-sample; }
+      .before, .after { animation-name: swap; animation-timing-function: steps(1, end); }
+      .during, .rest { animation-name: play-sample; animation-timing-function: steps(1, end); }
+      .source-field > .during { animation-name: input-focus; animation-timing-function: var(--ease-ui); }
       .before, .rest { --idle: 1; --active: 0; }
       .after, .during { --idle: 0; --active: 1; }
       .bars rect {
@@ -48,38 +50,41 @@
       .bars rect:nth-child(3) { animation-delay: -410ms; }
     }
     @keyframes chapter {
-      0%, 19.99% { visibility: visible; opacity: .45; }
-      .8%, 19.4% { visibility: visible; opacity: 1; }
+      0%, 19.99% { visibility: visible; opacity: .75; }
+      .4%, 19.6% { visibility: visible; opacity: 1; }
       20%, 100% { visibility: hidden; opacity: 0; }
     }
     @keyframes press {
-      0%, 2.25%, 100% { transform: none; filter: none; }
-      .6% { transform: translateY(-3px); filter: brightness(.97); }
-      .95%, 1.3% { transform: translateY(2px) scale(.95); filter: brightness(.86); }
+      0%, 1.05%, 100% { transform: none; filter: none; }
+      .375%, .6% { transform: translateY(2px) scale(.95); filter: brightness(.90); }
     }
     @keyframes advance {
-      0%, 2.6%, 100% { transform: none; color: #9BA6B5; }
-      .85%, 1.35% { transform: translateX(7px); color: #BC002D; }
+      0%, 1.2%, 100% { transform: none; color: #9BA6B5; }
+      .5%, .65% { transform: var(--chevron-transform, translateX(5px)); color: #BC002D; }
     }
     @keyframes ready {
       0%, 30%, 100% { opacity: .46; }
-      .8%, 25% { opacity: 1; }
+      .6%, 25% { opacity: 1; }
     }
     @keyframes reveal {
       0%, 30%, 100% { opacity: 0; transform: translateY(7px); }
-      .85%, 25% { opacity: 1; transform: none; }
+      .6%, 25% { opacity: 1; transform: none; }
     }
     @keyframes choose {
       0%, 30%, 100% { transform: translateX(-55px); }
-      .8%, 25% { transform: none; }
+      .6%, 25% { transform: none; }
     }
     @keyframes swap {
       0%, 30%, 100% { opacity: var(--idle); }
-      .4%, 25% { opacity: var(--active); }
+      .075%, 25% { opacity: var(--active); }
     }
     @keyframes play-sample {
-      0%, 5.5%, 100% { opacity: var(--idle); }
-      .35%, 5% { opacity: var(--active); }
+      0%, 4.5%, 100% { opacity: var(--idle); }
+      .1%, 4% { opacity: var(--active); }
+    }
+    @keyframes input-focus {
+      0%, 2.8%, 100% { opacity: 0; }
+      .2%, 2.4% { opacity: 1; }
     }
     @keyframes wave {
       from { transform: scaleY(.4); }
@@ -136,7 +141,7 @@
     <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="bookmark-filled" viewBox="0 0 24 24"><path d="M7.8 3.2h8.4a2 2 0 0 1 2 2V20c0 .7-.6 1-1.2.6L12 17l-5 3.6c-.6.4-1.2.1-1.2-.6V5.2a2 2 0 0 1 2-2Z" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/></symbol>
   </defs>
-  <rect width="400" height="572" fill="#FFFFFF"/>
+  <rect width="400" height="608" fill="#FFFFFF"/>
   <g id="diagram-header">
     <use href="#app-mark" x="18" y="18" width="25" height="25" color="#22262D"/>
     <use href="#wordmark" x="50" y="23" width="70" height="15" color="#22262D"/>
@@ -152,52 +157,55 @@
     <text class="scene-title" x="24" y="144" font-size="26">식당에 둘이 들어갈 때</text>
     <g class="scene-flow">
       <g transform="translate(200 202)">
-        <g class="press" style="--cue:0.1s">
+        <g class="press" style="--cue:0.65s">
           <rect x="-94" y="-33" width="188" height="66" rx="17" fill="#F6F7F9"/>
           <use href="#ui-dining" x="-79" y="-24" width="48" height="48" color="currentColor"/>
           <text x="-15" y="8" font-size="21" font-weight="700" fill="#24272D">식당·카페</text>
         </g>
       </g>
-      <g transform="translate(200 252) rotate(90)">
-        <g class="chevron" style="--cue:0.55s">
+      <g transform="translate(200 265) rotate(90)">
+        <g class="chevron" style="--cue:1.05s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(200 316)">
-        <g class="next-step" style="--cue:0.7s">
-          <g class="party-picker">
+      <g transform="translate(200 341)">
+        <g class="next-step" style="--cue:1.35s">
+          <g class="party-picker" style="--cue:3.05s">
             <text x="0" y="-29" font-size="17" font-weight="600" fill="#4B5B72" text-anchor="middle">인원 말하기</text>
             <rect x="-113" y="-18" width="226" height="48" rx="13" fill="#F6F7F9"/>
-            <g class="selection" style="--cue:1.49s">
-              <rect x="-54" y="-14" width="52" height="40" rx="10" fill="#BC002D"/>
+            <g font-size="18" font-weight="600" fill="#4B5B72" text-anchor="middle">
+              <text x="-83" y="12">1명</text>
+              <g class="press"><text x="-28" y="12">2명</text></g>
+              <text x="27" y="12">3명</text>
+              <text x="82" y="12">4명</text>
             </g>
-            <text x="-83" y="12" font-size="18" font-weight="600" fill="#4B5B72" text-anchor="middle">1명</text>
-            <text x="-28" y="12" font-size="18" font-weight="600" fill="#4B5B72" text-anchor="middle">2명</text>
-            <text x="27" y="12" font-size="18" font-weight="600" fill="#4B5B72" text-anchor="middle">3명</text>
-            <text x="82" y="12" font-size="18" font-weight="600" fill="#4B5B72" text-anchor="middle">4명</text>
-            <g class="before" style="--cue:1.54s">
-              <text x="-83" y="12" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">1명</text>
-            </g>
-            <g class="after" style="--cue:1.54s">
-              <text x="-28" y="12" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">2명</text>
+            <clipPath id="party-selection">
+              <rect class="selection" style="--cue:3.22s" x="-54" y="-14" width="52" height="40" rx="10"/>
+            </clipPath>
+            <g clip-path="url(#party-selection)">
+              <rect x="-111" y="-14" width="111" height="40" fill="#BC002D"/>
+              <g font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">
+                <text x="-83" y="12">1명</text>
+                <g class="press"><text x="-28" y="12">2명</text></g>
+              </g>
             </g>
           </g>
         </g>
       </g>
-      <g transform="translate(200 377) rotate(90)">
-        <g class="chevron" style="--cue:1.69s">
+      <g transform="translate(200 401) rotate(90)">
+        <g class="chevron" style="--cue:3.36s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(20 398)">
-        <g class="result-panel">
+      <g transform="translate(20 432)">
+        <g class="result-panel arrive" style="--cue:1.55s">
           <rect x="0" y="0" width="360" height="148" rx="18" fill="#F6F7F9"/>
           <text x="17" y="33" font-size="16" font-weight="600" fill="#5F6E82">내가 할 말</text>
-          <g class="before" style="--cue:1.94s">
+          <g class="before" style="--cue:3.4s">
             <text x="17" y="80" font-size="30" font-weight="650" fill="#BC002D" class="ja" xml:lang="ja">一人です。</text>
             <text x="17" y="113" font-size="19" font-weight="580" fill="#4B5B72">히토리데스</text>
           </g>
-          <g class="arrive" style="--cue:1.94s">
+          <g class="arrive" style="--cue:3.44s">
             <text x="17" y="80" font-size="30" font-weight="650" fill="#BC002D" class="ja" xml:lang="ja">二人です。</text>
             <text x="17" y="113" font-size="19" font-weight="580" fill="#4B5B72">후타리데스</text>
           </g>
@@ -210,12 +218,12 @@
             <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">크게 보여주기</text>
           </g>
           <g transform="translate(207 112)">
-            <g class="press" style="--cue:3.06s">
-              <g class="before" style="--cue:3.4s">
+            <g class="press" style="--cue:5.75s">
+              <g class="before" style="--cue:5.95s">
                 <use href="#bookmark" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
                 <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">저장하기</text>
               </g>
-              <g class="after" style="--cue:3.4s">
+              <g class="after" style="--cue:5.95s">
                 <rect x="-9" y="-18" width="150" height="36" rx="10" fill="#FDEBF0"/>
                 <use href="#bookmark-filled" x="0" y="-10" width="20" height="20" color="#BC002D"/>
                 <text x="29" y="6" font-size="16.5" font-weight="620" fill="#BC002D">저장했어요</text>
@@ -226,7 +234,7 @@
       </g>
     </g>
   </g>
-  <g class="scene" id="story-conversation" style="--start:-24s">
+  <g class="scene" id="story-conversation" style="--start:-32s">
     <g class="scene-tab">
       <use href="#conversation" x="24" y="78" width="23" height="23" color="currentColor"/>
       <text x="57" y="97" font-size="20">대화</text>
@@ -234,28 +242,28 @@
     <text class="scene-title" x="24" y="144" font-size="26">직원에게 예약했다고 말할 때</text>
     <g class="scene-flow">
       <g transform="translate(200 202)">
-        <g class="press" style="--cue:0.1s">
+        <g class="press" style="--cue:0.65s">
           <rect x="-92" y="-38" width="184" height="76" rx="17" fill="#BC002D"/>
-          <g class="rest" style="--cue:0.46s">
+          <g class="rest" style="--cue:0.95s">
             <use href="#mic" x="-73" y="-21" width="25" height="25" color="#FFFFFF"/>
             <text x="-33" y="-1" font-size="20" font-weight="700" fill="#FFFFFF">내가 말하기</text>
           </g>
-          <g class="during" style="--cue:0.46s">
+          <g class="during" style="--cue:0.95s">
             <use href="#close" x="-73" y="-21" width="25" height="25" color="#FFFFFF"/>
             <text x="-33" y="-1" font-size="20" font-weight="700" fill="#FFFFFF">취소하기</text>
           </g>
           <text x="-33" y="22" font-size="15" font-weight="500" fill="#FFFFFF">한국어 → 일본어</text>
         </g>
       </g>
-      <g transform="translate(200 252) rotate(90)">
-        <g class="chevron" style="--cue:0.55s">
+      <g transform="translate(200 274) rotate(90)">
+        <g class="chevron" style="--cue:0.92s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(200 316)">
-        <g class="next-step" style="--cue:0.7s">
+      <g transform="translate(200 322)">
+        <g class="next-step" style="--cue:0.95s">
           <g class="utterance">
-            <g class="during" style="--cue:0.54s">
+            <g class="during" style="--cue:0.95s">
               <g transform="translate(-87 0)">
                 <g class="bars" fill="#BC002D">
                   <rect x="1" y="-5" width="3" height="10" rx="1.5"/>
@@ -264,57 +272,55 @@
                 </g>
               </g>
             </g>
-            <g class="rest" style="--cue:0.54s">
+            <g class="rest" style="--cue:0.95s">
               <use href="#mic" x="-91" y="-14" width="26" height="26" color="#BC002D"/>
             </g>
-            <g class="arrive" style="--cue:1.07s">
+            <g class="arrive" style="--cue:1.65s">
               <text x="-51" y="10" font-size="25" font-weight="650" fill="#24272D">예약했어요.</text>
             </g>
             <text x="0" y="38" font-size="16" font-weight="550" fill="#4B5B72" text-anchor="middle">한국어로 말하기</text>
           </g>
         </g>
       </g>
-      <g transform="translate(200 377) rotate(90)">
-        <g class="chevron" style="--cue:1.69s">
+      <g transform="translate(200 397) rotate(90)">
+        <g class="chevron" style="--cue:2.95s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(20 398)">
-        <g class="result-panel">
+      <g transform="translate(20 432)">
+        <g class="result-panel arrive" style="--cue:3.3s">
           <rect x="0" y="0" width="360" height="148" rx="18" fill="#FBF0F3"/>
           <text x="17" y="33" font-size="16" font-weight="600" fill="#5F6E82">일본어 번역</text>
-          <g class="arrive" style="--cue:1.98s">
-            <text x="17" y="80" font-size="24" font-weight="650" fill="#24272D" class="ja" xml:lang="ja">予約しました。</text>
-            <text x="17" y="112" font-size="14" font-weight="560" fill="#4B5B72">한국어 원문  예약했어요.</text>
-            <g transform="translate(207 56)">
-              <g class="press" style="--cue:3s">
-                <g class="rest" style="--cue:3.38s">
-                  <use href="#sound" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
-                  <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">일본어 듣기</text>
-                </g>
-                <g class="during" style="--cue:3.38s">
-                  <rect x="-9" y="-18" width="150" height="36" rx="10" fill="#FDEBF0"/>
-                  <g transform="translate(1 0)">
-                    <g class="bars" fill="#BC002D">
-                      <rect x="1" y="-5" width="3" height="10" rx="1.5"/>
-                      <rect x="7" y="-9" width="3" height="18" rx="1.5"/>
-                      <rect x="13" y="-6" width="3" height="12" rx="1.5"/>
-                    </g>
+          <text x="17" y="80" font-size="24" font-weight="650" fill="#24272D" class="ja" xml:lang="ja">予約しました。</text>
+          <text x="17" y="112" font-size="14" font-weight="560" fill="#4B5B72">한국어 원문  예약했어요.</text>
+          <g transform="translate(207 56)">
+            <g class="press" style="--cue:5.35s">
+              <g class="rest" style="--cue:5.55s">
+                <use href="#sound" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
+                <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">일본어 듣기</text>
+              </g>
+              <g class="during" style="--cue:5.55s">
+                <rect x="-9" y="-18" width="150" height="36" rx="10" fill="#FDEBF0"/>
+                <g transform="translate(1 0)">
+                  <g class="bars" fill="#BC002D">
+                    <rect x="1" y="-5" width="3" height="10" rx="1.5"/>
+                    <rect x="7" y="-9" width="3" height="18" rx="1.5"/>
+                    <rect x="13" y="-6" width="3" height="12" rx="1.5"/>
                   </g>
-                  <text x="29" y="6" font-size="16.5" font-weight="650" fill="#BC002D">재생 중</text>
                 </g>
+                <text x="29" y="6" font-size="16.5" font-weight="650" fill="#BC002D">재생 중</text>
               </g>
             </g>
-            <g transform="translate(207 98)">
-              <use href="#clear" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
-              <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">기록 비우기</text>
-            </g>
+          </g>
+          <g transform="translate(207 98)">
+            <use href="#clear" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
+            <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">기록 비우기</text>
           </g>
         </g>
       </g>
     </g>
   </g>
-  <g class="scene" id="story-languages" style="--start:-18s">
+  <g class="scene" id="story-languages" style="--start:-24s">
     <g class="scene-tab">
       <use href="#languages" x="24" y="78" width="23" height="23" color="currentColor"/>
       <text x="57" y="97" font-size="20">번역</text>
@@ -322,53 +328,52 @@
     <text class="scene-title" x="24" y="144" font-size="26">두 명이라고 써서 번역할 때</text>
     <g class="scene-flow">
       <g transform="translate(200 202)">
-        <g class="source-field">
-          <rect x="-94" y="-38" width="188" height="76" rx="15" fill="#FFFFFF" stroke="#E0E5EE" stroke-width="1.4"/>
-          <g class="during" style="--cue:0.02s">
-            <rect x="-94" y="-38" width="188" height="76" rx="15" fill="none" stroke="#BC002D" stroke-width="2"/>
-          </g>
+        <g class="source-field press" style="--cue:0.65s">
+          <rect x="-94" y="-38" width="188" height="76" rx="15" fill="#F6F7F9"/>
+          <rect class="during" style="--cue:0.76s" x="-94" y="-38" width="188" height="76" rx="15" fill="#FDEBF0"/>
           <text x="-78" y="-11" font-size="16" font-weight="600" fill="#5F6E82">내가 하는 말</text>
-          <text x="-78" y="20" font-size="24" font-weight="600" fill="#24272D" xml:space="preserve"><tspan class="after" style="--cue:0.24s">두</tspan><tspan class="after" style="--cue:0.41s"> 명</tspan><tspan class="after" style="--cue:0.55s">이</tspan><tspan class="after" style="--cue:0.67s">에</tspan><tspan class="after" style="--cue:0.81s">요.</tspan></text>
+          <text x="-78" y="20" font-size="24" font-weight="600" fill="#24272D" xml:space="preserve"><tspan class="after" style="--cue:0.85s">두</tspan><tspan class="after" style="--cue:1.02s"> 명</tspan><tspan class="after" style="--cue:1.19s">이</tspan><tspan class="after" style="--cue:1.36s">에</tspan><tspan class="after" style="--cue:1.53s">요.</tspan></text>
         </g>
       </g>
-      <g transform="translate(200 252) rotate(90)">
-        <g class="chevron" style="--cue:0.55s">
+      <g transform="translate(200 273) rotate(90)">
+        <g class="chevron" style="--cue:2.1s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(200 316)">
-        <g class="next-step" style="--cue:0.7s">
-          <g class="press" style="--cue:1.17s">
+      <g transform="translate(200 336)">
+        <g class="next-step" style="--cue:2.38s">
+          <g class="press" style="--cue:3.18s">
             <rect x="-75" y="-28" width="150" height="56" rx="15" fill="#BC002D"/>
-            <g class="before" style="--cue:0.26s">
+            <g class="before" style="--cue:2.02s">
               <rect x="-75" y="-28" width="150" height="56" rx="15" fill="#8B96A5"/>
             </g>
             <text x="0" y="8" font-size="23" font-weight="700" fill="#FFFFFF" text-anchor="middle">번역</text>
           </g>
         </g>
       </g>
-      <g transform="translate(200 377) rotate(90)">
-        <g class="chevron" style="--cue:1.69s">
+      <g transform="translate(200 397) rotate(90)">
+        <g class="chevron" style="--cue:3.55s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(20 398)">
+      <g transform="translate(20 432)">
         <g class="result-panel">
           <rect x="0" y="0" width="360" height="148" rx="18" fill="#F6F7F9"/>
           <text x="17" y="33" font-size="16" font-weight="600" fill="#5F6E82">상대가 하는 말</text>
-          <g class="before" style="--cue:1.96s">
+          <g class="before" style="--cue:3.87s">
             <text x="17" y="74" font-size="16" font-weight="500" fill="#5F6E82">번역한 문장이</text>
             <text x="17" y="98" font-size="16" font-weight="500" fill="#5F6E82">여기에 표시돼요.</text>
           </g>
-          <g class="arrive" style="--cue:1.98s">
-            <text x="17" y="88" font-size="30" font-weight="650" fill="#BC002D" class="ja" xml:lang="ja">二人です。</text>
+          <g class="arrive" style="--cue:3.9s">
+            <text x="17" y="80" font-size="30" font-weight="650" fill="#BC002D" class="ja" xml:lang="ja">二人です。</text>
+            <text x="17" y="113" font-size="19" font-weight="580" fill="#4B5B72">후타리데스</text>
             <g transform="translate(207 36)">
-              <g class="press" style="--cue:3.06s">
-                <g class="before" style="--cue:3.4s">
+              <g class="press" style="--cue:5.98s">
+                <g class="before" style="--cue:6.18s">
                   <use href="#copy" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
                   <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">복사</text>
                 </g>
-                <g class="after" style="--cue:3.4s">
+                <g class="after" style="--cue:6.18s">
                   <rect x="-9" y="-18" width="150" height="36" rx="10" fill="#FDEBF0"/>
                   <use href="#check" x="0" y="-10" width="20" height="20" color="#BC002D"/>
                   <text x="29" y="6" font-size="16.5" font-weight="620" fill="#BC002D">복사했어요</text>
@@ -388,7 +393,7 @@
       </g>
     </g>
   </g>
-  <g class="scene" id="story-bookmark" style="--start:-12s">
+  <g class="scene" id="story-bookmark" style="--start:-16s">
     <g class="scene-tab">
       <use href="#bookmark" x="24" y="78" width="23" height="23" color="currentColor"/>
       <text x="57" y="97" font-size="20">저장</text>
@@ -396,20 +401,20 @@
     <text class="scene-title" x="24" y="144" font-size="26">저장한 회화를 다시 꺼낼 때</text>
     <g class="scene-flow">
       <g transform="translate(200 202)">
-        <g class="press" style="--cue:0.1s">
+        <g class="press" style="--cue:0.65s">
           <rect x="-94" y="-33" width="188" height="66" rx="17" fill="#F6F7F9"/>
           <use href="#saved-art" x="-79" y="-24" width="48" height="48" color="currentColor"/>
           <text x="-15" y="8" font-size="21" font-weight="700" fill="#24272D">저장한 회화</text>
         </g>
       </g>
-      <g transform="translate(200 252) rotate(90)">
-        <g class="chevron" style="--cue:0.55s">
+      <g transform="translate(200 265) rotate(90)">
+        <g class="chevron" style="--cue:1.05s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(200 316)">
-        <g class="next-step" style="--cue:0.7s">
-          <g class="press" style="--cue:1.17s">
+      <g transform="translate(200 334)">
+        <g class="next-step" style="--cue:1.35s">
+          <g class="press" style="--cue:2.75s">
             <rect x="-110" y="-38" width="220" height="76" rx="15" fill="#F6F7F9"/>
             <text x="-92" y="-9" font-size="15" font-weight="560" fill="#4B5B72">식당·카페 · 인원 말하기</text>
             <text x="-92" y="22" font-size="23" font-weight="680" fill="#24272D">두 명이에요.</text>
@@ -417,47 +422,45 @@
           </g>
         </g>
       </g>
-      <g transform="translate(200 377) rotate(90)">
-        <g class="chevron" style="--cue:1.69s">
+      <g transform="translate(200 401) rotate(90)">
+        <g class="chevron" style="--cue:3.1s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(20 398)">
-        <g class="result-panel">
+      <g transform="translate(20 432)">
+        <g class="result-panel arrive" style="--cue:3.45s">
           <rect x="0" y="0" width="360" height="148" rx="18" fill="#F6F7F9"/>
           <text x="17" y="33" font-size="16" font-weight="600" fill="#5F6E82">인원 말하기 · 2명</text>
-          <g class="arrive" style="--cue:1.98s">
-            <text x="17" y="80" font-size="30" font-weight="650" fill="#BC002D" class="ja" xml:lang="ja">二人です。</text>
-            <text x="17" y="113" font-size="19" font-weight="580" fill="#4B5B72">후타리데스</text>
-            <g transform="translate(207 56)">
-              <g class="press" style="--cue:3s">
-                <g class="rest" style="--cue:3.38s">
-                  <use href="#sound" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
-                  <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">다시 듣기</text>
-                </g>
-                <g class="during" style="--cue:3.38s">
-                  <rect x="-9" y="-18" width="150" height="36" rx="10" fill="#FDEBF0"/>
-                  <g transform="translate(1 0)">
-                    <g class="bars" fill="#BC002D">
-                      <rect x="1" y="-5" width="3" height="10" rx="1.5"/>
-                      <rect x="7" y="-9" width="3" height="18" rx="1.5"/>
-                      <rect x="13" y="-6" width="3" height="12" rx="1.5"/>
-                    </g>
+          <text x="17" y="80" font-size="30" font-weight="650" fill="#BC002D" class="ja" xml:lang="ja">二人です。</text>
+          <text x="17" y="113" font-size="19" font-weight="580" fill="#4B5B72">후타리데스</text>
+          <g transform="translate(207 56)">
+            <g class="press" style="--cue:5.48s">
+              <g class="rest" style="--cue:5.68s">
+                <use href="#sound" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
+                <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">다시 듣기</text>
+              </g>
+              <g class="during" style="--cue:5.68s">
+                <rect x="-9" y="-18" width="150" height="36" rx="10" fill="#FDEBF0"/>
+                <g transform="translate(1 0)">
+                  <g class="bars" fill="#BC002D">
+                    <rect x="1" y="-5" width="3" height="10" rx="1.5"/>
+                    <rect x="7" y="-9" width="3" height="18" rx="1.5"/>
+                    <rect x="13" y="-6" width="3" height="12" rx="1.5"/>
                   </g>
-                  <text x="29" y="6" font-size="16.5" font-weight="650" fill="#BC002D">재생 중</text>
                 </g>
+                <text x="29" y="6" font-size="16.5" font-weight="650" fill="#BC002D">재생 중</text>
               </g>
             </g>
-            <g transform="translate(207 98)">
-              <use href="#bookmark-filled" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
-              <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">저장 해제</text>
-            </g>
+          </g>
+          <g transform="translate(207 98)">
+            <use href="#bookmark-filled" x="0" y="-10" width="20" height="20" color="#4B5B72"/>
+            <text x="29" y="6" font-size="16.5" font-weight="620" fill="#4B5B72">저장 해제</text>
           </g>
         </g>
       </g>
     </g>
   </g>
-  <g class="scene" id="story-person" style="--start:-6s">
+  <g class="scene" id="story-person" style="--start:-8s">
     <g class="scene-tab">
       <use href="#person" x="24" y="78" width="23" height="23" color="currentColor"/>
       <text x="57" y="97" font-size="20">MY</text>
@@ -465,34 +468,35 @@
     <text class="scene-title" x="24" y="144" font-size="26">내 말을 읽을 목소리를 고를 때</text>
     <g class="scene-flow">
       <g transform="translate(200 202)">
-        <g class="press" style="--cue:0.1s">
+        <g class="press" style="--cue:0.65s">
           <rect x="-94" y="-33" width="188" height="66" rx="17" fill="#F6F7F9"/>
           <use href="#person" x="-76" y="-14" width="28" height="28" color="#BC002D"/>
           <text x="-32" y="8" font-size="21" font-weight="700" fill="#24272D">내가 할 말</text>
         </g>
       </g>
-      <g transform="translate(200 252) rotate(90)">
-        <g class="chevron" style="--cue:0.55s">
+      <g transform="translate(200 267) rotate(90)">
+        <g class="chevron" style="--cue:1.05s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(200 316)">
-        <g class="next-step" style="--cue:0.7s">
+      <g transform="translate(200 334)">
+        <g class="next-step" style="--cue:1.35s">
           <g class="voice-choice">
-            <g class="press" style="--cue:1.17s">
+            <g class="press candidate" style="--cue:4.02s">
               <rect x="-104" y="-33" width="208" height="66" rx="15" fill="#F6F7F9"/>
-              <g class="after" style="--cue:1.49s">
+              <g class="after" style="--cue:4.22s">
                 <rect x="-104" y="-33" width="208" height="66" rx="15" fill="#FDEBF0"/>
+                <use href="#check" x="-12" y="-20" width="21" height="21" color="#BC002D"/>
               </g>
               <text x="-85" y="-1" font-size="22" font-weight="700" fill="#24272D">호노카</text>
               <text x="-85" y="21" font-size="15" font-weight="550" fill="#4B5B72">예문 미리 듣기</text>
-              <g class="after" style="--cue:1.49s">
-                <use href="#check" x="-12" y="-20" width="21" height="21" color="#BC002D"/>
-              </g>
-              <g class="rest" style="--cue:1.57s">
+            </g>
+            <g class="press preview" style="--cue:1.75s">
+              <rect x="53" y="-19" width="42" height="38" rx="10" fill="#FFFFFF"/>
+              <g class="rest" style="--cue:1.95s">
                 <use href="#sound" x="64" y="-11" width="22" height="22" color="#4B5B72"/>
               </g>
-              <g class="during" style="--cue:1.57s">
+              <g class="during" style="--cue:1.95s">
                 <g transform="translate(66 0)">
                   <g class="bars" fill="#BC002D">
                     <rect x="1" y="-5" width="3" height="10" rx="1.5"/>
@@ -505,29 +509,29 @@
           </g>
         </g>
       </g>
-      <g transform="translate(200 377) rotate(90)">
-        <g class="chevron" style="--cue:1.69s">
+      <g transform="translate(200 399) rotate(90)">
+        <g class="chevron" style="--cue:4.48s">
           <use href="#chevron" x="-16" y="-16" width="32" height="32" color="currentColor"/>
         </g>
       </g>
-      <g transform="translate(20 398)">
+      <g transform="translate(20 432)">
         <g class="result-panel">
           <rect x="0" y="0" width="360" height="148" rx="18" fill="#F6F7F9"/>
           <text x="17" y="39" font-size="16" font-weight="600" fill="#5F6E82">내가 할 말</text>
-          <g class="before" style="--cue:3.51s">
+          <g class="before" style="--cue:6.48s">
             <text x="17" y="94" font-size="31" font-weight="670" fill="#24272D">마이</text>
           </g>
-          <g class="arrive" style="--cue:3.51s">
+          <g class="after" style="--cue:6.48s">
             <text x="17" y="94" font-size="31" font-weight="670" fill="#BC002D">호노카</text>
           </g>
-          <g class="arrive" style="--cue:1.98s">
+          <g class="arrive" style="--cue:4.78s">
             <g transform="translate(194 47)">
-              <g class="press" style="--cue:3.15s">
-                <g class="before" style="--cue:3.51s">
+              <g class="press" style="--cue:6.28s">
+                <g class="before" style="--cue:6.48s">
                   <rect x="0" y="0" width="151" height="54" rx="14" fill="#BC002D"/>
                   <text x="75.5" y="34" font-size="16.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">이 목소리로 설정</text>
                 </g>
-                <g class="after" style="--cue:3.51s">
+                <g class="after" style="--cue:6.48s">
                   <rect x="0" y="0" width="151" height="54" rx="14" fill="#FDEBF0"/>
                   <use href="#check" x="16" y="15" width="22" height="22" color="#BC002D"/>
                   <text x="48" y="34" font-size="17" font-weight="680" fill="#BC002D">설정했어요</text>

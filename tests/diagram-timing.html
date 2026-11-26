@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>SVG 재생 타이밍 검사</title>
+<pre id="result" aria-live="polite">검사 중…</pre>
+<iframe id="viewer" title="검사 중인 SVG" height="844" tabindex="-1" style="position:absolute;left:-2000px;border:0"></iframe>
+<script type="module">
+  // [시작, 끝] 구간은 양 끝을 포함해 60fps의 모든 프레임을 확인한다.
+  const scenes = {
+    "service-flow": {
+      "story-home": [
+        [[110, 175], ".result-panel > .before", "읽기"], [192, ".party-picker .press", "눌림"],
+        [[225, 340], ".result-panel .arrive", "읽기"], [365, ".result-panel .press .after", "보임"]
+      ],
+      "story-conversation": [
+        [130, ".utterance .during", "보임"], [155, ".result-panel", "숨김"], [185, ".utterance .during", "숨김"],
+        [[213, 315], ".result-panel .ja", "읽기"], [[213, 315], ".result-panel .press", "대기"], [330, ".result-panel .press", "눌림"]
+      ],
+      "story-languages": [
+        [82, "tspan:last-child", "숨김"], [97, "tspan:last-child", "보임"],
+        [200, ".source-field > .during", "숨김"], [200, ".next-step .press", "눌림"],
+        [233, ".result-panel .ja + text", "숨김"], [[249, 350], ".result-panel .ja + text", "읽기"],
+        [[249, 350], ".result-panel .ja", "읽기"], [[249, 350], ".result-panel .press", "대기"], [370, ".result-panel .press", "눌림"]
+      ],
+      "story-bookmark": [
+        [175, ".next-step .press", "눌림"], [175, ".result-panel", "숨김"],
+        [[222, 322], ".result-panel .ja", "읽기"], [[222, 322], ".result-panel .press", "대기"], [340, ".result-panel .press", "눌림"]
+      ],
+      "story-person": [
+        [170, ".preview .during", "보임"], [170, ".candidate .after", "숨김"],
+        [261, ".candidate .after", "보임"], [261, ".result-panel .press", "숨김"],
+        [[301, 374], ".result-panel .press .before", "읽기"], [[301, 374], ".result-panel .press", "대기"],
+        [385, ".result-panel .press", "눌림"], [400, ".result-panel .press .after", "읽기"]
+      ]
+    },
+    "architecture-steps": {
+      "scene-local": [
+        [310, ".client g[transform] .press", "눌림"], [310, ".destination .status", "숨김"], [405, ".destination .status", "읽기"]
+      ],
+      "scene-offline": [
+        [[66, 151], ".meter", "진행 중"], [[155, 409], ".meter", "가득 참"],
+        [[0, 184], ".signal, .station > .appear, .relay .status, .destination .status", "숨김"],
+        [[0, 184], ".station, .nudge", "대기"],
+        [[158, 185], ".client .field", "읽기"], [202, ".link-a .signal", "보임"],
+        [234, ".relay .state-line", "읽기"], [[185, 292], ".link-b .signal, .destination .station > .appear", "숨김"],
+        [310, ".link-b .signal", "보임"], [335, ".destination .station > .appear", "보임"],
+        [400, ".destination .status", "읽기"], [400, ".client .ready-label", "숨김"], [429, ".client .ready-label", "읽기"]
+      ],
+      "scene-text": [
+        [190, ".spinner", "숨김"], [[193, 295], ".spinner", "회전"], [295, ".destination .state-line", "숨김"],
+        [296, ".spinner", "숨김"], [296, ".destination .state-line", "보임"],
+        [319, ".destination .state-line", "읽기"], [319, ".client .received", "숨김"],
+        [392, ".relay .state-line", "읽기"], [467, ".client .received", "읽기"]
+      ],
+      "scene-voice": [
+        [[218, 290], ".client text.status", "읽기"], [290, ".direct-route", "숨김"],
+        [356, ".spinner", "숨김"], [[359, 437], ".spinner", "회전"], [437, ".destination .arrive:last-child .state-line", "숨김"],
+        [438, ".spinner", "숨김"], [438, ".destination .arrive:last-child .state-line", "보임"],
+        [325, ".direct-route", "보임"], [440, ".utterance .bars", "숨김"], [[515, 585], ".client .received", "읽기"]
+      ]
+    }
+  };
+
+  const viewer = document.querySelector("#viewer");
+  const result = document.querySelector("#result");
+
+  function matches(element, state, previousOffsets) {
+    if (!element) return false;
+    let opacity = 1;
+    for (let node = element; node; node = node.parentElement) {
+      const style = getComputedStyle(node);
+      if (style.display === "none" || style.visibility === "hidden") return state === "숨김";
+      opacity *= Number(style.opacity);
+    }
+    if (state === "숨김") return opacity < .05;
+    if (state === "보임") return opacity > .5;
+    if (state === "읽기") return opacity >= .98;
+    if (state === "회전") {
+      const offset = getComputedStyle(element).strokeDashoffset;
+      const moved = offset !== previousOffsets.get(element);
+      previousOffsets.set(element, offset);
+      return opacity > .5 && moved;
+    }
+    const transform = getComputedStyle(element).transform;
+    const matrix = transform === "none" ? new DOMMatrix() : new DOMMatrix(transform);
+    if (state === "대기") return opacity > .5 && matrix.isIdentity;
+    if (state === "눌림") return opacity > .5 && matrix.a < .985;
+    if (state === "가득 참") return opacity >= .98 && matrix.a >= .999999;
+    if (state === "진행 중") return opacity >= .98 && matrix.a > .015 && matrix.a < .999999;
+    throw Error("알 수 없는 상태 " + state);
+  }
+
+  function checkMobileArrows(scene) {
+    const unit = scene.getScreenCTM().d;
+    const arrows = scene.querySelectorAll(".scene-flow > g > .chevron");
+    if (arrows.length !== 2) throw Error(scene.id + " · 연결 화살표 개수");
+    let firstGap;
+    for (const arrow of arrows) {
+      const slot = arrow.parentElement;
+      const upper = slot.previousElementSibling.getBoundingClientRect().bottom;
+      const lower = slot.nextElementSibling.getBoundingClientRect().top;
+      const gap = (lower - upper) / unit;
+      if (firstGap === undefined) firstGap = gap;
+      if (Math.abs(gap - firstGap) > 4) throw Error(scene.id + " · 카드 사이 여백");
+      const motion = arrow.getAnimations()[0];
+      const {delay, duration} = motion.effect.getTiming();
+      for (const frame of motion.effect.getKeyframes()) {
+        motion.currentTime = delay + duration * (1 + frame.computedOffset);
+        const box = arrow.getBoundingClientRect();
+        const above = (box.top - upper) / unit;
+        const below = (lower - box.bottom) / unit;
+        if (Math.abs(above - below) > 4 || Math.min(above, below) < 18)
+          throw Error(`${scene.id} · 화살표 위 ${above.toFixed(1)}px / 아래 ${below.toFixed(1)}px`);
+      }
+    }
+  }
+
+  async function check(diagram, file, width) {
+    viewer.width = width;
+    await new Promise(resolve => {
+      viewer.onload = resolve;
+      viewer.src = "../assets/diagrams/" + file + ".svg";
+    });
+    const doc = viewer.contentDocument;
+    if (!doc) throw Error("저장소 루트에서 로컬 HTTP 서버를 열어 실행해 주세요.");
+    const animations = doc.getAnimations();
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const selector = diagram === "service-flow" ? ".scene.first .scene-title" : ".overview";
+      const visibleFallback = [...doc.querySelectorAll(selector)].some(el => matches(el, "보임"));
+      if (animations.length || !visibleFallback) throw Error(file + " 정지 화면");
+      return;
+    }
+    if (!animations.length) throw Error(file + " 애니메이션을 찾을 수 없습니다.");
+    for (const animation of animations) animation.pause();
+    const entries = Object.entries(scenes[diagram]);
+    for (const [index, [id, samples]] of entries.entries()) {
+      const scene = [...doc.querySelectorAll(`[id$="${id}"]`)].find(el => {
+        const layout = el.closest(".wide-layout, .portrait-layout");
+        return !layout || getComputedStyle(layout).display !== "none";
+      });
+      const clock = scene.getAnimations({subtree: true});
+      const duration = scene.getAnimations()[0].effect.getTiming().duration;
+      if (diagram === "service-flow" && width <= 640) {
+        for (const animation of clock) animation.currentTime = (index + .95) * duration / entries.length;
+        checkMobileArrows(scene);
+      }
+      for (const [frames, selector, state] of samples) {
+        const elements = [...scene.querySelectorAll(selector)];
+        if (!elements.length) throw Error(file + " · " + selector);
+        const [first, last] = Array.isArray(frames) ? frames : [frames, frames];
+        const previousOffsets = new Map();
+        for (let frame = first; frame <= last; frame++) {
+          const time = index * duration / entries.length + frame * 1000 / 60;
+          for (const animation of clock) animation.currentTime = time;
+          if (!elements.every(el => matches(el, state, previousOffsets))) throw Error(`${file} · ${id} · ${frame}F · ${selector} · ${state}`);
+        }
+      }
+    }
+  }
+
+  try {
+    const log = [];
+    for (const name of Object.keys(scenes)) {
+      for (const [file, width] of [[name, 1024], [name, 390], [name + "-mobile", 390]]) {
+        await check(name, file, width);
+        log.push(`${file}.svg · ${width}px 통과`);
+      }
+    }
+    result.textContent = log.join("\n");
+    result.dataset.state = "passed";
+  } catch (error) {
+    result.textContent = "실패 · " + error.message;
+    result.dataset.state = "failed";
+  }
+</script>
+</html>
