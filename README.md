@@ -95,8 +95,10 @@ MY에서 다섯 목소리를 들어 보고 내 말과 상대의 말을 누가 �
 
 <picture>
   <source media="(max-width: 640px)" srcset="assets/diagrams/architecture-mobile.svg">
-  <img src="assets/diagrams/architecture.svg" width="1280" alt="브라우저 안에서는 수록 회화를 찾고 표현과 기록을 저장합니다. 자유 문장과 번역문은 Vercel과 Azure Translator를 오갑니다. 브라우저가 Vercel에서 임시 토큰을 받으면 음성은 Azure Speech와 직접 주고받습니다.">
+  <img src="assets/diagrams/architecture.svg" width="1280" alt="수록 회화는 기기에서 찾고 표현과 기록은 localStorage에 저장합니다. 오프라인 준비는 서비스 워커가 화면과 음원을 Cache Storage에 담습니다. 수록되지 않은 문장은 Vercel을 거쳐 Azure Translator에서 번역합니다. 마이크 음성은 Vercel을 통해 임시 토큰을 받은 뒤 브라우저가 Azure Speech에 직접 보냅니다.">
 </picture>
+
+이전 아키텍처 도식 [데스크톱](assets/diagrams/architecture-original.svg) · [모바일](assets/diagrams/architecture-original-mobile.svg)
 
 <br>
 

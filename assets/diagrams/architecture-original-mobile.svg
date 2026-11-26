@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="517" viewBox="0 0 400 517" role="img" aria-labelledby="title desc" xml:lang="ko">
+  <title id="title">NIHON · 기기 저장과 온라인 번역 경로</title>
+  <desc id="desc">수록 회화는 브라우저에서 찾습니다. 저장한 표현과 기록은 localStorage에, 오프라인 화면과 음원은 Cache Storage에 남습니다. 자유 문장은 Vercel을 거쳐 Azure Translator와 주고받습니다. Vercel이 Azure에서 임시 토큰을 받아 브라우저에 건네면, 브라우저가 Azure Speech에 직접 연결해 음성을 번역하거나 일본어를 읽습니다.</desc>
+  <style>text {font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;letter-spacing:-.35px}
+    .en {font-family:"Helvetica Neue",Arial,sans-serif;letter-spacing:1.15px}
+    .n {font-family:"Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.75px}
+    .signal,.focus {opacity:0;pointer-events:none}
+    @media (prefers-reduced-motion:no-preference) {
+      .signal {stroke-dasharray:13 110;animation:travel 5.8s var(--delay,0s) ease-in-out infinite}
+      .focus {animation:focus 5.8s var(--delay,0s) ease-out infinite;transform-box:fill-box;transform-origin:center}
+    }
+    @keyframes travel {0%,4%{stroke-dashoffset:15;opacity:0}12%{opacity:1}48%{stroke-dashoffset:-101;opacity:1}55%,100%{stroke-dashoffset:-105;opacity:0}}
+    @keyframes focus {0%,6%{opacity:0;transform:scale(.75)}17%{opacity:.52}38%,100%{opacity:0;transform:scale(1.45)}}</style>
+  <defs>
+    <symbol id="app-mark" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="112" fill="#BC002D"/>
+      <path d="M256 65 C358.724 65 442 148.276 442 251 C442 353.724 358.724 437 256 437 C225.344 437 196.411 429.594 170.922 416.333 C167.306 414.439 163 414.267 158.867 415.989 L110.128 438.378 C94.111 445.439 80.333 435.967 84.122 421.844 C85.328 417.711 87.739 414.439 90.667 410.822 L114.433 376.033 C117.878 371.211 117.878 367.25 114.089 362.428 C86.706 330.05 70 291.472 70 251 C70 148.276 153.276 65 256 65Z" fill="#FFFFFF"/>
+      <path d="M195 162C205 164 210 171 207 180C197 224 196 273 204 317C206 328 199 336 189 337C179 338 172 332 170 322C161 271 162 221 173 174C175 164 184 160 195 162Z" fill="#BC002D"/>
+      <path d="M248 177C272 174 304 174 328 177C338 178 343 184 342 194C341 203 335 208 326 208C301 206 275 206 249 209C238 210 232 204 232 194C232 184 238 179 248 177Z" fill="#BC002D"/>
+      <path d="M239 255C246 251 254 253 259 259C264 266 263 272 258 278C254 283 257 289 265 293C280 299 303 300 325 296C337 294 344 300 345 310C346 320 340 327 330 329C297 334 264 332 242 323C222 315 214 304 215 286C215 272 222 259 239 255Z" fill="#BC002D"/>
+    </symbol>
+    <symbol id="wordmark" viewBox="0 0 1080 224">
+      <path d="M18 4H42C48 4 52 6 56 11L162 132V18C162 10.268 168.268 4 176 4H200C207.732 4 214 10.268 214 18V202C214 209.732 207.732 216 200 216H176C170 216 166 214 162 209L56 89V202C56 209.732 49.732 216 42 216H18C10.268 216 4 209.732 4 202V18C4 10.268 10.268 4 18 4Z" fill="#24272D"/>
+      <path d="M286 4H310C317.732 4 324 10.268 324 18V202C324 209.732 317.732 216 310 216H286C278.268 216 272 209.732 272 202V18C272 10.268 278.268 4 286 4Z" fill="#24272D"/>
+      <path d="M396 4H420C427.732 4 434 10.268 434 18V84H530V18C530 10.268 536.268 4 544 4H568C575.732 4 582 10.268 582 18V202C582 209.732 575.732 216 568 216H544C536.268 216 530 209.732 530 202V130H434V202C434 209.732 427.732 216 420 216H396C388.268 216 382 209.732 382 202V18C382 10.268 388.268 4 396 4Z" fill="#24272D"/>
+      <path d="M880 4H904C910 4 914 6 918 11L1024 132V18C1024 10.268 1030.268 4 1038 4H1062C1069.732 4 1076 10.268 1076 18V202C1076 209.732 1069.732 216 1062 216H1038C1032 216 1028 214 1024 209L918 89V202C918 209.732 911.732 216 904 216H880C872.268 216 866 209.732 866 202V18C866 10.268 872.268 4 880 4Z" fill="#24272D"/>
+      <path d="M724 4 C783.646 4 832 52.354 832 112 C832 171.646 783.646 220 724 220 C706.2 220 689.4 215.7 674.6 208 C672.5 206.9 670 206.8 667.6 207.8 L639.3 220.8 C630 224.9 622 219.4 624.2 211.2 C624.9 208.8 626.3 206.9 628 204.8 L641.8 184.6 C643.8 181.8 643.8 179.5 641.6 176.7 C625.7 157.9 616 135.5 616 112 C616 52.354 664.354 4 724 4Z" fill="#BC002D"/>
+    </symbol>
+    <symbol id="wave" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v4m4-7v10m4-14v18m4-15v12m4-9v6m4-5v4"/></g></symbol>
+    <symbol id="languages" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h12M9 3v2.5M12.5 5.5c-1.1 4.8-4.1 8.5-9 10.8M5.5 9.5c1.2 2.6 3 4.6 5.5 6M13 21l4.4-10.5L21.8 21m-7.3-3.5h5.8"/></g></symbol>
+    <symbol id="library" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16m5-16v16m4-14 4-1 4 14-4 1z"/></g></symbol>
+    <symbol id="store" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 4 16 4 16 0V5M4 12v6c0 4 16 4 16 0v-6"/></g></symbol>
+    <symbol id="download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v12m-4.6-4.6 4.6 4.6 4.6-4.6M4 16.5v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></g></symbol>
+    <marker id="arr-gray" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="8" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M2 1.4 8 5 2 8.6" fill="none" stroke="#738091" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arr-red" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="8" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M2 1.4 8 5 2 8.6" fill="none" stroke="#BC002D" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arr-dark" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="8" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M2 1.4 8 5 2 8.6" fill="none" stroke="#465564" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <rect x="0" y="0" width="400" height="517" rx="0" fill="#FFFFFF"/>
+  <g id="diagram-header">
+    <use href="#app-mark" x="18" y="18" width="25" height="25" color="#22262D"/>
+    <use href="#wordmark" x="50" y="23" width="70" height="15" color="#22262D"/>
+    <text x="133" y="35" font-size="11" font-weight="700" fill="#BC002D" text-anchor="start" class="en">ARCHITECTURE</text>
+    <text x="382" y="35" font-size="12" font-weight="520" fill="#5E6877" text-anchor="end">회화 · 문자 · 음성</text>
+    <path d="M18 56H382" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="browser">
+    <rect x="15" y="83" width="164" height="207" rx="12" fill="#F8EDF0"/>
+    <rect x="15" y="83" width="164" height="29" rx="10" fill="#F2E0E5"/>
+    <rect x="15" y="101" width="164" height="11" rx="0" fill="#F2E0E5"/>
+    <circle cx="27" cy="98" r="2.2" fill="#B88E9B"/>
+    <circle cx="34" cy="98" r="2.2" fill="#B88E9B"/>
+    <circle cx="41" cy="98" r="2.2" fill="#B88E9B"/>
+    <text x="167" y="102" font-size="11.5" font-weight="540" fill="#735661" text-anchor="end">nihon.today</text>
+    <text x="27" y="142" font-size="19" font-weight="720" fill="#22262D" text-anchor="start">여행자 브라우저</text>
+    <use href="#library" x="27" y="156" width="15" height="15" color="#8B4C61"/>
+    <text x="49" y="169" font-size="14.5" font-weight="590" fill="#22262D" text-anchor="start">수록 회화 검색</text>
+    <text x="49" y="185" font-size="12.5" font-weight="470" fill="#5E6877" text-anchor="start">회화 데이터</text>
+    <use href="#store" x="27" y="198" width="15" height="15" color="#8B4C61"/>
+    <text x="49" y="211" font-size="14.5" font-weight="590" fill="#22262D" text-anchor="start">저장한 표현 · 기록</text>
+    <text x="49" y="227" font-size="12.5" font-weight="470" fill="#5E6877" text-anchor="start">localStorage</text>
+    <use href="#download" x="27" y="240" width="15" height="15" color="#8B4C61"/>
+    <text x="49" y="253" font-size="14.5" font-weight="590" fill="#22262D" text-anchor="start">오프라인 화면 · 음원</text>
+    <text x="49" y="269" font-size="12.5" font-weight="470" fill="#5E6877" text-anchor="start">Cache Storage</text>
+  </g>
+  <g id="vercel">
+    <rect x="253" y="85" width="132" height="173" rx="12" fill="#F6F7F9"/>
+    <path d="M265 118l8 -14 8 14Z" fill="#22262D"/>
+    <text x="287" y="119" font-size="22" font-weight="720" fill="#22262D" text-anchor="start" class="n">Vercel</text>
+    <text x="265" y="144" font-size="14" font-weight="510" fill="#4D5968" text-anchor="start">Next.js 정적 배포</text>
+    <path d="M265 161h108" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="265" y="188" font-size="15.5" font-weight="630" fill="#22262D" text-anchor="start">문자 번역 함수</text>
+    <text x="265" y="233" font-size="15.5" font-weight="630" fill="#22262D" text-anchor="start">음성 토큰 중계</text>
+  </g>
+  <path d="M183 183H249" fill="none" stroke="#465564" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr-dark)" marker-start="url(#arr-dark)"/><path d="M183 183H249" fill="none" stroke="#22262D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" class="signal" pathLength="100" style="--delay:0s"/>
+  <text x="216" y="168" font-size="14" font-weight="600" fill="#4D5968" text-anchor="middle">자유 문장</text>
+  <path d="M249 229H183" fill="none" stroke="#738091" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr-gray)" stroke-dasharray="3 5"/><path d="M249 229H183" fill="none" stroke="#BC002D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="signal" pathLength="100" style="--delay:2.1s"/>
+  <text x="216" y="216" font-size="14" font-weight="600" fill="#4D5968" text-anchor="middle">임시 토큰</text>
+  <path d="M345 263V367Q345 377 335 377H327V396" fill="none" stroke="#465564" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr-dark)" marker-start="url(#arr-dark)"/><path d="M345 263V367Q345 377 335 377H327V396" fill="none" stroke="#22262D" stroke-width="2.9000000000000004" stroke-linecap="round" stroke-linejoin="round" class="signal" pathLength="100" style="--delay:0.85s"/>
+  <text x="334" y="352" font-size="14" font-weight="570" fill="#4D5968" text-anchor="end">번역 요청</text>
+  <path d="M274 263V301Q274 311 264 311H142Q132 311 132 321V375Q132 385 122 385H108Q99 385 99 396" fill="none" stroke="#738091" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr-gray)" marker-start="url(#arr-gray)" stroke-dasharray="3 5"/><path d="M274 263V301Q274 311 264 311H142Q132 311 132 321V375Q132 385 122 385H108Q99 385 99 396" fill="none" stroke="#BC002D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="signal" pathLength="100" style="--delay:1.35s"/>
+  <text x="206" y="300" font-size="14" font-weight="550" fill="#4D5968" text-anchor="middle">토큰 요청 · 응답</text>
+  <path d="M53 296V377Q53 386 63 386H66Q76 386 76 397" fill="none" stroke="#BC002D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arr-red)" marker-start="url(#arr-red)"/><path d="M53 296V377Q53 386 63 386H66Q76 386 76 397" fill="none" stroke="#BC002D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="signal" pathLength="100" style="--delay:2.8s"/>
+  <text x="66" y="336" font-size="15.5" font-weight="690" fill="#BC002D" text-anchor="start">음성</text>
+  <text x="66" y="356" font-size="15.5" font-weight="690" fill="#BC002D" text-anchor="start">직접 연결</text>
+  <g id="azure-wave">
+    <circle cx="88" cy="421" r="19" fill="#FCE9EE"/>
+    <use href="#wave" x="76.98" y="409.98" width="22.04" height="22.04" color="#BC002D"/>
+    <text x="88" y="464" font-size="18" font-weight="700" fill="#22262D" text-anchor="middle" class="n">Azure Speech</text>
+    <text x="88" y="487" font-size="14.8" font-weight="510" fill="#4D5968" text-anchor="middle">음성 번역 · 일본어 읽기</text>
+  </g>
+  <g id="azure-languages">
+    <circle cx="326" cy="421" r="19" fill="#F6F7F9"/>
+    <use href="#languages" x="314.98" y="409.98" width="22.04" height="22.04" color="#4D5968"/>
+    <text x="326" y="464" font-size="18" font-weight="700" fill="#22262D" text-anchor="middle" class="n">Azure Translator</text>
+    <text x="326" y="487" font-size="14.8" font-weight="510" fill="#4D5968" text-anchor="middle">한·일 문자 번역</text>
+  </g>
+</svg>
