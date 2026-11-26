@@ -19,10 +19,13 @@
 
 <picture>
   <source media="(max-width: 640px)" srcset="assets/diagrams/service-flow-mobile.svg">
-  <img src="assets/diagrams/service-flow.svg" width="1280" alt="식당·카페에서 2명을 고르면 二人です。를 듣거나 크게 보여주거나 저장할 수 있습니다. 대화는 마이크로, 번역은 글로 한 문장씩 옮깁니다. 저장한 회화는 같은 인원으로 다시 열고, MY에서는 내 말과 상대 말의 목소리를 따로 고릅니다. 위쪽 그림은 탭마다 실제 화면을 차례로 보여 줍니다.">
+  <img src="assets/diagrams/service-flow.svg" width="1280" alt="다섯 탭의 이용 흐름. 상황에서 2명을 골라 회화를 저장하고, 대화에서 예약했다고 말해 일본어로 옮깁니다. 번역에서는 직접 쓴 문장을 번역해 복사하고, 저장에서는 회화를 다시 듣고, MY에서는 내 말을 읽을 목소리를 고릅니다.">
 </picture>
 
 <br>
+
+<details>
+<summary>탭별 기능과 바로가기</summary>
 
 | 탭 | 들어가서 할 수 있는 일 |
 | --- | --- |
@@ -31,6 +34,8 @@
 | [번역](https://nihon.today/translate/text/) | 한국어·일본어 입력 · 번역 · 복사 · 일본어 듣기 · 원문 수정과 복원 |
 | [저장](https://nihon.today/saved/) | 인원별로 저장한 표현 보기 · 같은 문장 다시 열기 · 저장 해제 |
 | [MY](https://nihon.today/my/) | 내가 할 말 / 상대의 말 → 다섯 목소리 미리 듣기 → 고른 역할에 설정 |
+
+</details>
 
 <br>
 
