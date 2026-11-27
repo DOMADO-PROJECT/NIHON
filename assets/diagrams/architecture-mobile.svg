@@ -11,6 +11,11 @@
     .node-detail { font-size: 16px; fill: #4B5B72; }
     .wire { fill: none; stroke: #8290A2; stroke-width: 1.4; stroke-linecap: round; marker-start: url(#arrow); marker-end: url(#arrow); }
     .direct { stroke-width: 1.25; }
+    .flow {
+      display: none; fill: none; stroke: #914358; stroke-width: 4; stroke-linecap: round;
+      stroke-dasharray: 20 200; --before-track: 32; --after-track: -112;
+    }
+    .flow.voice-direct { stroke-width: 3.5; stroke-dasharray: 5 200; --before-track: 6; --after-track: -101; }
     .direct-label { font-size: 14px; font-weight: 520; fill: #59687B; }
     .content { transform: translateY(484px); }
     .chapter-name { font-size: 21px; font-weight: 720; fill: #BC002D; }
@@ -58,7 +63,8 @@
     .map-row:nth-child(3) { transform: translate(0px, 212px); }
     .map-row:nth-child(4) { transform: translate(0px, 318px); }
     @media screen and (prefers-reduced-motion: no-preference) {
-      .map .node, .map .wire { animation-duration: var(--story-cycle); animation-timing-function: linear; animation-iteration-count: infinite; }
+      .map .node, .map .flow { animation-duration: var(--story-cycle); animation-timing-function: linear; animation-iteration-count: infinite; }
+      .map .flow { display: inline; }
       .map .browser { animation-name: map-browser; }
       .map .vercel { animation-name: map-vercel; }
       .map .azure { animation-name: map-azure; }
@@ -105,17 +111,18 @@
       0%, 57.7%, 65.85%, 89.65%, 96.05%, 100% { fill: #F5F7F9; color: #445469; }
       58.1%, 65.45%, 90.05%, 95.65% { fill: #F8EDF0; color: #914358; }
     }
+    /* 길이 100인 경로 양끝에 표시를 숨기고 하단 장면의 전송·응답 때만 왕복시킨다. */
     @keyframes map-browser-vercel {
-      0%, 32.875%, 38.775%, 53.25%, 68.9%, 77.475%, 84.15%, 100% { stroke: #8290A2; stroke-width: 1.4; }
-      33.275%, 38.375%, 53.65%, 68.5%, 77.875%, 83.75% { stroke: #586C81; stroke-width: 2.2; }
+      0%, 32.875%, 38.375%, 53.25%, 68.5%, 77.475%, 83.75%, 100% { stroke-dashoffset: var(--before-track); }
+      33.75%, 37.375%, 54.05%, 67.375%, 78.225%, 82.85% { stroke-dashoffset: var(--after-track); }
     }
     @keyframes map-vercel-azure {
-      0%, 56.75%, 65.85%, 79.375%, 82.45%, 100% { stroke: #8290A2; stroke-width: 1.4; }
-      57.15%, 65.45%, 79.775%, 82.05% { stroke: #586C81; stroke-width: 2.2; }
+      0%, 56.75%, 65.45%, 79.375%, 82.05%, 100% { stroke-dashoffset: var(--before-track); }
+      57.7%, 64.5%, 80.075%, 81.25% { stroke-dashoffset: var(--after-track); }
     }
     @keyframes map-voice-direct {
-      0%, 87.3%, 96.05%, 100% { stroke: #8290A2; stroke-width: 1.25; }
-      87.7%, 95.65% { stroke: #586C81; stroke-width: 1.9; }
+      0%, 87.65%, 95.65%, 100% { stroke-dashoffset: var(--before-track); }
+      89.65%, 93.725% { stroke-dashoffset: var(--after-track); }
     }
     @keyframes chapter {
       0%, 24.99% { opacity: .75; visibility: visible; }
@@ -194,6 +201,9 @@
     <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
       <path d="m3 1 5 4-5 4" fill="none" stroke="#8290A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
+    <path id="portrait-browser-vercel" d="M200 195V213" pathLength="100"/>
+    <path id="portrait-vercel-azure" d="M200 335V353" pathLength="100"/>
+    <path id="portrait-voice-direct" d="M322 134H340Q354 134 354 148V480Q354 494 340 494H214Q200 494 200 480V476" pathLength="100"/>
 
     <g id="browser-node">
       <rect width="228" height="108" rx="16"/>
@@ -225,11 +235,14 @@
     </g>
     <g class="map">
       <use class="node browser" href="#browser-node" x="86" y="80"/>
-      <path class="wire browser-vercel" d="M200 195V213"/>
+      <use class="wire" href="#portrait-browser-vercel"/>
+      <use class="flow browser-vercel" href="#portrait-browser-vercel"/>
       <use class="node vercel" href="#vercel-node" x="86" y="220"/>
-      <path class="wire vercel-azure" d="M200 335V353"/>
+      <use class="wire" href="#portrait-vercel-azure"/>
+      <use class="flow vercel-azure" href="#portrait-vercel-azure"/>
       <use class="node azure" href="#azure-node" x="86" y="360"/>
-      <path class="wire direct voice-direct" d="M322 134H340Q354 134 354 148V480Q354 494 340 494H214Q200 494 200 480V476"/>
+      <use class="wire direct" href="#portrait-voice-direct"/>
+      <use class="flow voice-direct" href="#portrait-voice-direct"/>
       <text class="direct-label" x="277" y="516">토큰 발급 후 음성 직접 연결</text>
     </g>
 
