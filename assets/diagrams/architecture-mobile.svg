@@ -1,17 +1,133 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="720" viewBox="0 0 400 720" preserveAspectRatio="none" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
-  <title id="title">NIHON · 브라우저, Vercel, Azure의 연결 구조</title>
-  <desc id="desc">브라우저는 Vercel에서 Next.js 화면과 MP3를 받아 수록 회화를 기기에서 찾습니다. 저장한 표현과 대화 기록은 localStorage에, 오프라인 화면과 MP3는 서비스 워커가 Cache Storage에 보관합니다. 목록에 없는 문장은 Vercel의 text-translation을 거쳐 Azure Translator가 번역합니다. 브라우저가 speech-token을 통해 Azure Speech의 임시 토큰을 받으면 음성 번역과 일본어 읽기는 Azure Speech와 직접 주고받습니다.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="1208" viewBox="0 0 400 1208" preserveAspectRatio="none" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
+  <title id="title">NIHON · 시스템 구조와 기능별 처리 흐름</title>
+  <desc id="desc">위에는 여행자 브라우저, Vercel, Azure의 연결 구조가 있고 아래에는 기능별 처리 흐름이 있습니다. 브라우저는 Vercel에서 Next.js 정적 화면을 받아 수록 회화를 찾습니다. 저장한 표현과 대화 기록은 localStorage에, 오프라인 화면과 MP3는 서비스 워커가 Cache Storage에 보관합니다. 수록되지 않은 문장은 Vercel의 text-translation을 거쳐 Azure Translator에서 번역합니다. 음성은 Vercel의 speech-token을 통해 Azure의 임시 토큰을 받은 뒤 브라우저가 Azure Speech와 직접 주고받습니다.</desc>
   <style>
     :root { display: block; max-width: 100%; height: auto; margin-inline: auto; }
     text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.35px; }
-    .en, .latin { font-family: "Helvetica Neue", Arial, sans-serif; }
-    .en { letter-spacing: 1.15px; }
+    .en { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.15px; }
     .map { fill: #24272D; color: #344154; text-anchor: middle; }
-    .node-title { font-size: 23px; font-weight: 700; }
-    .detail { font-size: 17px; fill: #4B5B72; }
-    .wire { fill: none; stroke: #8290A2; stroke-width: 1.6; stroke-linecap: round; marker-start: url(#arrow); marker-end: url(#arrow); }
+    .node-title { font-size: 22px; font-weight: 700; }
+    .node-detail { font-size: 16px; fill: #4B5B72; }
+    .wire { fill: none; stroke: #8290A2; stroke-width: 1.4; stroke-linecap: round; marker-start: url(#arrow); marker-end: url(#arrow); }
     .direct { stroke-width: 1.25; }
     .direct-label { font-size: 14px; font-weight: 520; fill: #59687B; }
+    .content { transform: translateY(568px); }
+    .chapter-name { font-size: 21px; font-weight: 720; fill: #BC002D; }
+    .headline, .overview-title { font-weight: 740; }
+    .service-name { font-size: 23px; font-weight: 700; }
+    .latin { font-family: "Helvetica Neue", Arial, sans-serif; }
+    .detail { font-size: 17px; font-weight: 520; fill: #536176; }
+    .code { font: 15px ui-monospace, "SFMono-Regular", Consolas, monospace; fill: #536176; }
+    .status { font-size: 16px; font-weight: 660; fill: #BC002D; }
+    .spinner { fill: none; stroke: #BC002D; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 72 28; }
+    .browser-title { font-size: 17px; font-weight: 680; }
+    .domain { font: 14px "Helvetica Neue", Arial, sans-serif; fill: #626F80; text-anchor: end; }
+    .field { font-size: 18px; font-weight: 620; }
+    .sentence { font-size: 16px; font-weight: 580; }
+    .hint { font-size: 16px; font-weight: 520; fill: #616E80; }
+    .button-label { font-size: 17px; font-weight: 700; fill: white; }
+    .center { text-anchor: middle; }
+    .japanese { font: 650 25px "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif; fill: #BC002D; }
+    .long-result { font-size: 18px; }
+    .map-title { font-weight: 700; }
+    .map-copy { font-weight: 530; fill: #48576A; }
+    .appear, .arrive, .signal { opacity: 0; }
+    .scene { visibility: hidden; }
+    #scene-offline {
+      --download-done: 2.55s;
+      --transfer-card: calc(var(--download-done) + .95s);
+      --cache-card: calc(var(--transfer-card) + 1.85s);
+      --ready: calc(var(--cache-card) + 1.55s);
+    }
+    .canvas { transform-origin: 0 0; }
+    .chapter-label { transform: translate(24px, 77px); }
+    .headline { transform: translate(24px, 141px); }
+    .client { transform: translate(56px, 168px); }
+    .link-a { transform: translate(200px, 345px) rotate(90deg); }
+    .relay { transform: translate(70px, 367px); }
+    .link-b { transform: translate(200px, 494px) rotate(90deg); }
+    .destination { transform: translate(70px, 516px); }
+    .overview-title { transform: translate(24px, 123px); }
+    .map-rows { transform: translate(24px, 179px); }
+    .map-detail { transform: translate(37px, 34px); }
+    .headline, .overview-title { font-size: 25px; }
+    .map-title { font-size: 20px; }
+    .map-copy { font-size: 16px; }
+    .map-row:nth-child(2) { transform: translate(0px, 106px); }
+    .map-row:nth-child(3) { transform: translate(0px, 212px); }
+    .map-row:nth-child(4) { transform: translate(0px, 318px); }
+    @media screen and (prefers-reduced-motion: no-preference) {
+      .overview { display: none; }
+      .stories { display: inline; }
+      /* 네 장면이 10초씩 같은 시계를 쓴다. --cue는 각 장면 안에서의 시간이다. */
+      .scene, .appear, .arrive, .disappear, .press, .station, .nudge, .signal, .meter, .turn-text, .turn-voice {
+        animation-duration: 40s;
+        animation-delay: calc(var(--start) + var(--cue, 0s));
+        animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+      }
+      .scene { animation-name: chapter; animation-timing-function: linear; }
+      .appear { animation-name: show; animation-timing-function: steps(1, end); }
+      .disappear { animation-name: hide; animation-timing-function: steps(1, end); }
+      .arrive { animation-name: reveal; }
+      .press, .station { transform-box: fill-box; transform-origin: center; }
+      .press { animation-name: press; }
+      .station { animation-name: receive; }
+      .nudge { animation-name: forward; }
+      .signal { animation-name: accent; }
+      .turn-text, .turn-voice { animation-timing-function: steps(1, end); }
+      .turn-text { animation-name: text-direction; }
+      .turn-voice { animation-name: voice-direction; }
+      .meter { animation-name: download; animation-timing-function: linear; transform-box: fill-box; transform-origin: left center; }
+      .spinner { animation: spin 900ms linear infinite; }
+      .bars rect { animation: wave 640ms ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+      .bars rect:nth-child(3n+2) { animation-delay: -210ms; }
+      .bars rect:nth-child(3n) { animation-delay: -410ms; }
+    }
+    @keyframes chapter {
+      0%, 24.99% { opacity: .75; visibility: visible; }
+      .4%, 24.6% { opacity: 1; visibility: visible; }
+      25%, 100% { opacity: 0; visibility: hidden; }
+    }
+    @keyframes show { 0%, 38%, 100% { opacity: 0; } .075%, 33% { opacity: 1; } }
+    @keyframes hide { 0%, 38%, 100% { opacity: 1; } .075%, 33% { opacity: 0; } }
+    @keyframes reveal {
+      0%, 38%, 100% { opacity: 0; transform: translateY(5px); }
+      .6%, 33% { opacity: 1; transform: none; }
+    }
+    @keyframes press {
+      0%, 1.05%, 100% { transform: none; filter: none; }
+      .375%, .6% { transform: translateY(2px) scale(.95); filter: brightness(.90); }
+    }
+    @keyframes receive {
+      0%, 1.125%, 100% { transform: none; }
+      .45% { transform: scale(.98); }
+    }
+    @keyframes forward {
+      0%, 1.2%, 100% { transform: none; }
+      .5%, .65% { transform: translateX(5px); }
+    }
+    @keyframes accent {
+      0%, 1.2%, 100% { opacity: 0; }
+      .5%, .65% { opacity: 1; }
+    }
+    /* 응답 시 꺾쇠가 호출자 쪽을 향한다. 음성은 토큰 왕복 뒤 직접 연결한다. */
+    @keyframes text-direction {
+      0%, 35%, 100% { transform: none; }
+      14% { transform: rotate(180deg); }
+    }
+    @keyframes voice-direction {
+      0%, 12%, 35%, 100% { transform: none; }
+      6%, 18.5% { transform: rotate(180deg); }
+    }
+    /* 40초 루프의 3.75%가 막대가 차는 1.5초다. */
+    @keyframes download {
+      0%, 38%, 100% { transform: scaleX(0); }
+      3.75%, 33% { transform: scaleX(1); }
+    }
+    @keyframes wave { from { transform: scaleY(.4); } to { transform: scaleY(1); } }
+    @keyframes spin { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
   </style>
   <defs>
     <symbol id="app-mark" viewBox="0 0 512 512">
@@ -28,50 +144,638 @@
       <path d="M880 4H904C910 4 914 6 918 11L1024 132V18C1024 10.268 1030.268 4 1038 4H1062C1069.732 4 1076 10.268 1076 18V202C1076 209.732 1069.732 216 1062 216H1038C1032 216 1028 214 1024 209L918 89V202C918 209.732 911.732 216 904 216H880C872.268 216 866 209.732 866 202V18C866 10.268 872.268 4 880 4Z" fill="#24272D"/>
       <path d="M724 4 C783.646 4 832 52.354 832 112 C832 171.646 783.646 220 724 220 C706.2 220 689.4 215.7 674.6 208 C672.5 206.9 670 206.8 667.6 207.8 L639.3 220.8 C630 224.9 622 219.4 624.2 211.2 C624.9 208.8 626.3 206.9 628 204.8 L641.8 184.6 C643.8 181.8 643.8 179.5 641.6 176.7 C625.7 157.9 616 135.5 616 112 C616 52.354 664.354 4 724 4Z" fill="#BC002D"/>
     </symbol>
-    <symbol id="browser-icon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M3 9h18"/></g></symbol>
-    <symbol id="vercel-mark" viewBox="0 0 24 24"><path d="m1 20 11-18 11 18Z" fill="currentColor"/></symbol>
+    <symbol id="wave" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v4m4-7v10m4-14v18m4-15v12m4-9v6m4-5v4"/></g></symbol>
+    <symbol id="languages" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h12M9 3v2.5M12.5 5.5c-1.1 4.8-4.1 8.5-9 10.8M5.5 9.5c1.2 2.6 3 4.6 5.5 6M13 21l4.4-10.5L21.8 21m-7.3-3.5h5.8"/></g></symbol>
+    <symbol id="library" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16m5-16v16m4-14 4-1 4 14-4 1z"/></g></symbol>
+    <symbol id="store" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 4 16 4 16 0V5M4 12v6c0 4 16 4 16 0v-6"/></g></symbol>
+    <symbol id="download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v12m-4.6-4.6 4.6 4.6 4.6-4.6M4 16.5v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></g></symbol>
+    <symbol id="chevron" viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.1 5.2 5.3L20.2 6.6"/></g></symbol>
+    <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.7" width="6" height="11.5" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v3m-3 0h6"/></g></symbol>
+    <symbol id="bookmark" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.8 3.2h8.4a2 2 0 0 1 2 2V20c0 .7-.6 1-1.2.6L12 17l-5 3.6c-.6.4-1.2.1-1.2-.6V5.2a2 2 0 0 1 2-2Z"/></g></symbol>
+    <symbol id="bookmark-filled" viewBox="0 0 24 24"><path d="M7.8 3.2h8.4a2 2 0 0 1 2 2V20c0 .7-.6 1-1.2.6L12 17l-5 3.6c-.6.4-1.2.1-1.2-.6V5.2a2 2 0 0 1 2-2Z" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/></symbol>
+    <symbol id="search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="10.4" cy="10.4" r="6.9"/><path d="m15.5 15.5 5 5"/></g></symbol>
+    <symbol id="browser" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M3 9h18"/></g></symbol>
+    <symbol id="vercel" viewBox="0 0 24 24"><path d="m1 20 11-18 11 18Z" fill="currentColor"/></symbol>
     <symbol id="cloud" viewBox="0 0 24 24"><path d="M6.5 18.5a4.5 4.5 0 0 1-.2-9 6 6 0 0 1 11.5-1.3 5.2 5.2 0 0 1-.5 10.3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
-    <marker id="arrow" viewBox="0 0 10 10" markerWidth="9" markerHeight="9" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+    <marker id="arrow" viewBox="0 0 10 10" markerWidth="8" markerHeight="8" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
       <path d="m3 1 5 4-5 4" fill="none" stroke="#8290A2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
 
     <g id="browser-node">
-      <rect width="244" height="160" rx="18" fill="#EFF2F5"/>
-      <use href="#browser-icon" x="111" y="20" width="22" height="22"/>
-      <text class="node-title" x="122" y="73">여행자 브라우저</text>
-      <text class="detail" x="122" y="109">수록 회화 검색 · 표현 저장</text>
-      <text class="detail" x="122" y="135">화면과 음원 오프라인 보관</text>
+      <rect width="228" height="136" rx="16" fill="#EFF2F5"/>
+      <use href="#browser" x="104" y="14" width="20" height="20"/>
+      <text class="node-title" x="114" y="62">여행자 브라우저</text>
+      <text class="node-detail" x="114" y="93">수록 회화 검색 · 표현 저장</text>
+      <text class="node-detail" x="114" y="117">화면과 음원 오프라인 보관</text>
     </g>
     <g id="vercel-node">
-      <rect width="244" height="160" rx="18" fill="#F5F6F8"/>
-      <use href="#vercel-mark" x="111" y="20" width="22" height="22"/>
-      <text class="node-title latin" x="122" y="73">Vercel</text>
-      <text class="detail" x="122" y="109">화면과 MP3 배포</text>
-      <text class="detail" x="122" y="135">번역 요청 · 임시 토큰 중계</text>
+      <rect width="228" height="136" rx="16" fill="#F5F6F8"/>
+      <use href="#vercel" x="104" y="14" width="20" height="20"/>
+      <text class="node-title latin" x="114" y="62">Vercel</text>
+      <text class="node-detail" x="114" y="93">화면과 MP3 배포</text>
+      <text class="node-detail" x="114" y="117">번역 요청 · 임시 토큰 중계</text>
     </g>
     <g id="azure-node">
-      <rect width="244" height="160" rx="18" fill="#F5F6F8"/>
-      <use href="#cloud" x="110" y="19" width="24" height="24"/>
-      <text class="node-title latin" x="122" y="73">Azure</text>
-      <text class="detail" x="122" y="109">Translator · 문자 번역</text>
-      <text class="detail" x="122" y="135">Speech · 음성 번역과 읽기</text>
+      <rect width="228" height="136" rx="16" fill="#F5F6F8"/>
+      <use href="#cloud" x="103" y="13" width="22" height="22"/>
+      <text class="node-title latin" x="114" y="62">Azure</text>
+      <text class="node-detail" x="114" y="93">Translator · 문자 번역</text>
+      <text class="node-detail" x="114" y="117">Speech · 음성 번역과 읽기</text>
     </g>
   </defs>
-  <rect width="400" height="720" fill="#FFFFFF"/>
-  <g id="diagram-header">
-    <use href="#app-mark" x="18" y="18" width="25" height="25" color="#22262D"/>
-    <use href="#wordmark" x="50" y="23" width="70" height="15" color="#22262D"/>
-    <text x="133" y="35" font-size="11" font-weight="700" fill="#BC002D" text-anchor="start" class="en">ARCHITECTURE</text>
-    <text x="382" y="35" font-size="12" font-weight="520" fill="#5E6877" text-anchor="end">전체 구조</text>
-    <path d="M18 56H382" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-  <g class="map" transform="translate(0 8)">
-    <use href="#browser-node" x="78" y="84"/>
-    <path class="wire" d="M200 252V272"/>
-    <use href="#vercel-node" x="78" y="280"/>
-    <path class="wire" d="M200 448V468"/>
-    <use href="#azure-node" x="78" y="476"/>
-    <path class="wire direct" d="M330 164H352Q366 164 366 178V654Q366 668 352 668H214Q200 668 200 654V644"/>
-    <text class="direct-label" x="283" y="692">토큰 발급 후 음성 직접 연결</text>
+  <rect width="400" height="1208" fill="#FFFFFF"/>
+  <g class="canvas">
+    <g id="diagram-header">
+      <use href="#app-mark" x="18" y="18" width="25" height="25" color="#22262D"/>
+      <use href="#wordmark" x="50" y="23" width="70" height="15" color="#22262D"/>
+      <text x="133" y="35" font-size="11" font-weight="700" fill="#BC002D" text-anchor="start" class="en">ARCHITECTURE</text>
+      <text x="382" y="35" font-size="12" font-weight="520" fill="#5E6877" text-anchor="end">전체 구조 · 처리 흐름</text>
+      <path d="M18 56H382" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g class="map">
+      <use href="#browser-node" x="86" y="80"/>
+      <path class="wire" d="M200 223V241"/>
+      <use href="#vercel-node" x="86" y="248"/>
+      <path class="wire" d="M200 391V409"/>
+      <use href="#azure-node" x="86" y="416"/>
+      <path class="wire direct" d="M322 148H340Q354 148 354 162V564Q354 578 340 578H214Q200 578 200 564V560"/>
+      <text class="direct-label" x="277" y="600">토큰 발급 후 음성 직접 연결</text>
+    </g>
+    <path d="M18 624H382" fill="none" stroke="#E1E5EA"/>
+    <!-- 아래 네 장면은 단독 이미지 architecture-steps-mobile.svg와 같은 내용과 타이밍을 쓴다. -->
+    <g class="content" fill="#22262D">
+      <g class="overview">
+        <text x="0" y="0" class="overview-title">회화가 오가는 네 가지 경로</text>
+        <g class="map-rows">
+          <g class="map-row">
+            <use href="#library" x="0" y="-16" width="24" height="24" color="#BC002D"/>
+            <text x="37" y="5" class="map-title">수록 회화</text>
+            <g class="map-detail">
+              <text x="0" y="0" class="map-copy">브라우저에서 수록 회화를 찾고</text>
+              <text x="0" y="23" class="map-copy">표현과 대화 기록은 localStorage에 저장해요.</text>
+            </g>
+          </g>
+          <g class="map-row">
+            <use href="#download" x="0" y="-16" width="24" height="24" color="#BC002D"/>
+            <text x="37" y="5" class="map-title">오프라인 준비</text>
+            <g class="map-detail">
+              <text x="0" y="0" class="map-copy">Vercel의 정적 화면과 MP3를 받아</text>
+              <text x="0" y="23" class="map-copy">서비스 워커가 Cache Storage에 보관해요.</text>
+            </g>
+          </g>
+          <g class="map-row">
+            <use href="#languages" x="0" y="-16" width="24" height="24" color="#BC002D"/>
+            <text x="37" y="5" class="map-title">문자 번역</text>
+            <g class="map-detail">
+              <text x="0" y="0" class="map-copy">수록되지 않은 문장은 Vercel을 거쳐</text>
+              <text x="0" y="23" class="map-copy">Azure Translator에서 번역해 돌려줘요.</text>
+            </g>
+          </g>
+          <g class="map-row">
+            <use href="#mic" x="0" y="-16" width="24" height="24" color="#BC002D"/>
+            <text x="37" y="5" class="map-title">음성 번역</text>
+            <g class="map-detail">
+              <text x="0" y="0" class="map-copy">Vercel을 거쳐 Azure의 임시 토큰을 받고</text>
+              <text x="0" y="23" class="map-copy">브라우저가 Azure Speech에 직접 연결해요.</text>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g class="stories" display="none">
+        <g id="scene-local" class="scene" style="--start:0s">
+          <g class="chapter-label">
+            <use href="#library" x="0" y="0" width="25" height="25" color="#BC002D"/>
+            <text x="35" y="21" class="chapter-name">수록 회화</text>
+          </g>
+          <text x="0" y="0" class="headline">회화는 기기에서 찾아 저장해요</text>
+          <g class="client">
+            <rect x="0" y="0" width="288" height="154" rx="18" fill="#EFF2F5"/>
+            <use href="#browser" x="17" y="14" width="22" height="22" color="#536176"/>
+            <text x="48" y="31" class="browser-title">여행자 브라우저</text>
+            <text x="270" y="30" class="domain">nihon.today</text>
+            <g class="press" style="--cue:0.65s">
+              <rect x="17" y="57" width="254" height="40" rx="11" fill="#FFFFFF"/>
+              <use href="#search" x="29" y="67" width="19" height="19" color="#536176"/>
+              <g class="disappear" style="--cue:0.9s">
+                <text x="59" y="83" class="hint">회화 검색</text>
+              </g>
+              <g class="appear" style="--cue:0.9s">
+                <text x="59" y="83" class="field">두 명</text>
+              </g>
+            </g>
+            <g class="arrive" style="--cue:2.6s">
+              <text x="18" y="134" class="japanese" xml:lang="ja">二人です。</text>
+            </g>
+            <g class="appear" style="--cue:2.6s">
+              <g transform="translate(231 103)">
+                <g class="press" style="--cue:5s">
+                  <rect x="0" y="0" width="40" height="36" rx="10" fill="#FFFFFF"/>
+                  <g class="disappear" style="--cue:5.22s">
+                    <use href="#bookmark" x="10" y="8" width="20" height="20" color="#536176"/>
+                  </g>
+                  <g class="appear" style="--cue:5.22s">
+                    <rect x="0" y="0" width="40" height="36" rx="10" fill="#FBECEF"/>
+                  </g>
+                  <g class="appear" style="--cue:5.22s">
+                    <use href="#bookmark-filled" x="10" y="8" width="20" height="20" color="#BC002D"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="link-a">
+            <g class="outbound">
+              <g class="nudge" style="--cue:1.28s">
+                <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                <g class="signal" style="--cue:1.28s">
+                  <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="relay">
+            <g class="station" style="--cue:1.6s">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear" style="--cue:1.6s">
+                <g class="disappear" style="--cue:5.92s">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <use href="#library" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name">회화 데이터</text>
+              <text x="18" y="65" class="detail">브라우저 안에서 검색</text>
+              <g class="arrive" style="--cue:2.16s">
+                <g class="state-line">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">2인 표현 찾음</text>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="link-b">
+            <g class="outbound">
+              <g class="nudge" style="--cue:5.55s">
+                <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                <g class="signal" style="--cue:5.55s">
+                  <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="destination">
+            <g class="station" style="--cue:6s">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear" style="--cue:6s">
+                <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+              </g>
+              <use href="#store" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name latin">localStorage</text>
+              <text x="18" y="65" class="detail">이 기기의 표현 · 대화 기록</text>
+              <g class="arrive" style="--cue:6.55s">
+                <g class="state-line">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">표현 저장됨</text>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="scene-offline" class="scene" style="--start:-30s">
+          <g class="chapter-label">
+            <use href="#download" x="0" y="0" width="25" height="25" color="#BC002D"/>
+            <text x="35" y="21" class="chapter-name">오프라인 준비</text>
+          </g>
+          <text x="0" y="0" class="headline">화면과 음원을 미리 받아요</text>
+          <g class="client">
+            <rect x="0" y="0" width="288" height="154" rx="18" fill="#EFF2F5"/>
+            <use href="#browser" x="17" y="14" width="22" height="22" color="#536176"/>
+            <text x="48" y="31" class="browser-title">여행자 브라우저</text>
+            <text x="270" y="30" class="domain">nihon.today</text>
+            <g class="press" style="--cue:0.65s">
+              <g class="disappear" style="--cue:var(--download-done)">
+                <rect x="17" y="57" width="254" height="42" rx="12" fill="#BC002D"/>
+                <g class="disappear" style="--cue:0.9s">
+                  <text x="144" y="84" class="button-label center">이 기기에 준비하기</text>
+                </g>
+                <g class="appear" style="--cue:0.9s">
+                  <text x="144" y="84" class="button-label center">화면과 음원 받는 중</text>
+                </g>
+              </g>
+              <g class="appear" style="--cue:var(--download-done)">
+                <g class="disappear" style="--cue:var(--ready)">
+                  <text x="144" y="84" class="field center">다운로드 완료</text>
+                </g>
+              </g>
+              <g class="appear" style="--cue:var(--ready)">
+                <g class="ready-label">
+                  <rect x="17" y="57" width="254" height="42" rx="12" fill="#FBECEF"/>
+                  <use href="#check" x="83" y="69" width="19" height="19" color="#BC002D"/>
+                  <text x="111" y="84" class="status">준비 완료</text>
+                </g>
+              </g>
+            </g>
+            <g class="appear" style="--cue:0.9s">
+              <g class="disappear" style="--cue:var(--ready)">
+                <g class="progress-track">
+                  <rect x="18" y="114" width="252" height="6" rx="3" fill="#E0E5EC"/>
+                  <g class="meter" style="--cue:calc(var(--download-done) - 1.5s)">
+                    <rect x="18" y="114" width="252" height="6" rx="3" fill="#BC002D"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g class="arrive" style="--cue:calc(var(--ready) + .05s)">
+              <text x="18" y="132" class="detail">인터넷 없이도 열 수 있어요</text>
+            </g>
+          </g>
+          <g class="link-a">
+            <g class="outbound">
+              <g class="nudge" style="--cue:calc(var(--download-done) + .6s)">
+                <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                <g class="signal">
+                  <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="relay">
+            <g class="station" style="--cue:var(--transfer-card)">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear">
+                <g class="disappear" style="--cue:var(--cache-card)">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <use href="#vercel" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name latin">Vercel</text>
+              <text x="18" y="65" class="detail">Next.js 정적 화면 · MP3</text>
+              <g class="arrive" style="--cue:calc(var(--transfer-card) + .1s)">
+                <g class="state-line">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">파일 전송 완료</text>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="link-b">
+            <g class="outbound">
+              <g class="nudge" style="--cue:calc(var(--cache-card) - .4s)">
+                <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                <g class="signal">
+                  <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="destination">
+            <g class="station" style="--cue:var(--cache-card)">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear">
+                <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+              </g>
+              <use href="#store" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name latin">Cache Storage</text>
+              <text x="18" y="65" class="detail">서비스 워커가 파일 보관</text>
+              <g class="arrive" style="--cue:calc(var(--cache-card) + 1.05s)">
+                <g class="state-line">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">오프라인 저장 완료</text>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="scene-text" class="scene" style="--start:-20s">
+          <g class="chapter-label">
+            <use href="#languages" x="0" y="0" width="25" height="25" color="#BC002D"/>
+            <text x="35" y="21" class="chapter-name">문자 번역</text>
+          </g>
+          <text x="0" y="0" class="headline">목록에 없는 문장만 서버로 보내요</text>
+          <g class="client">
+            <rect x="0" y="0" width="288" height="154" rx="18" fill="#EFF2F5"/>
+            <use href="#browser" x="17" y="14" width="22" height="22" color="#536176"/>
+            <text x="48" y="31" class="browser-title">여행자 브라우저</text>
+            <text x="270" y="30" class="domain">nihon.today</text>
+            <rect x="17" y="58" width="187" height="39" rx="11" fill="#FFFFFF"/>
+            <text x="26" y="83" class="sentence">이 자리에 앉아도 되나요?</text>
+            <g class="press" style="--cue:0.65s">
+              <rect x="211" y="58" width="60" height="39" rx="11" fill="#BC002D"/>
+              <text x="241" y="84" class="button-label center">번역</text>
+            </g>
+            <g class="disappear" style="--cue:0.9s">
+              <text x="18" y="130" class="hint">수록 문장 확인</text>
+            </g>
+            <g class="appear" style="--cue:0.9s">
+              <g class="disappear" style="--cue:7.4s">
+                <text x="18" y="130" class="hint">수록되지 않아 번역 요청</text>
+              </g>
+            </g>
+            <g class="arrive" style="--cue:7.4s">
+              <g class="received">
+                <rect x="15" y="105" width="258" height="35" rx="9" fill="#FBECEF"/>
+                <text x="22" y="130" class="japanese long-result" xml:lang="ja">この席に座ってもいいですか？</text>
+              </g>
+            </g>
+          </g>
+          <g class="link-a">
+            <g class="turn-text">
+              <g class="nudge" style="--cue:6.95s">
+                <g class="nudge" style="--cue:1.3s">
+                  <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                  <g class="signal" style="--cue:1.3s">
+                    <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                  </g>
+                  <g class="signal" style="--cue:6.95s">
+                    <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="relay">
+            <g class="station" style="--cue:1.62s">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear" style="--cue:1.62s">
+                <g class="disappear" style="--cue:3.05s">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <g class="appear" style="--cue:6.18s">
+                <g class="disappear" style="--cue:7.3s">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <use href="#vercel" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name latin">Vercel</text>
+              <text x="18" y="65" class="code">text-translation</text>
+              <g class="arrive" style="--cue:1.78s">
+                <g class="disappear" style="--cue:6.25s">
+                  <text x="18" y="90" class="status">원문 전달</text>
+                </g>
+              </g>
+              <g class="arrive" style="--cue:6.25s">
+                <g class="state-line">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">번역문 반환</text>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="link-b">
+            <g class="turn-text">
+              <g class="nudge" style="--cue:5.8s">
+                <g class="nudge" style="--cue:2.7s">
+                  <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                  <g class="signal" style="--cue:2.7s">
+                    <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                  </g>
+                  <g class="signal" style="--cue:5.8s">
+                    <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="destination">
+            <g class="station" style="--cue:3.08s">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear" style="--cue:3.08s">
+                <g class="disappear" style="--cue:6.17s">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <use href="#languages" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name latin">Azure Translator</text>
+              <text x="18" y="65" class="detail">한·일 문자 번역</text>
+              <g class="arrive" style="--cue:3.18s">
+                <g class="disappear" style="--cue:4.9s">
+                  <text x="18" y="90" textLength="48" class="status">번역 중</text>
+                  <circle class="spinner" cx="82" cy="84" r="7" pathLength="100" aria-hidden="true"/>
+                </g>
+              </g>
+              <g class="arrive" style="--cue:4.9s">
+                <g class="state-line appear">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">번역 완료</text>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="scene-voice" class="scene" style="--start:-10s">
+          <g class="chapter-label">
+            <use href="#mic" x="0" y="0" width="25" height="25" color="#BC002D"/>
+            <text x="35" y="21" class="chapter-name">음성 번역</text>
+          </g>
+          <text x="0" y="0" class="headline">음성은 Azure로 바로 보내요</text>
+          <g class="client">
+            <rect x="0" y="0" width="288" height="154" rx="18" fill="#EFF2F5"/>
+            <use href="#browser" x="17" y="14" width="22" height="22" color="#536176"/>
+            <text x="48" y="31" class="browser-title">여행자 브라우저</text>
+            <text x="270" y="30" class="domain">nihon.today</text>
+            <g class="press" style="--cue:0.65s">
+              <rect x="17" y="57" width="254" height="42" rx="12" fill="#BC002D"/>
+              <g class="disappear" style="--cue:0.88s">
+                <use href="#mic" x="65" y="68" width="21" height="21" color="#FFFFFF"/>
+                <text x="104" y="84" class="button-label">내가 말하기</text>
+              </g>
+              <g class="appear" style="--cue:0.88s">
+                <g class="disappear" style="--cue:8.26s">
+                  <use href="#close" x="65" y="68" width="21" height="21" color="#FFFFFF"/>
+                  <text x="104" y="84" class="button-label">취소하기</text>
+                </g>
+              </g>
+              <g class="appear" style="--cue:8.26s">
+                <use href="#mic" x="65" y="68" width="21" height="21" color="#FFFFFF"/>
+                <text x="104" y="84" class="button-label">내가 말하기</text>
+              </g>
+            </g>
+            <g class="appear" style="--cue:0.88s">
+              <g class="disappear" style="--cue:3.5s">
+                <text x="18" y="130" class="hint">임시 토큰 요청</text>
+              </g>
+            </g>
+            <g class="appear" style="--cue:3.5s">
+              <g class="disappear" style="--cue:5.06s">
+                <text x="18" y="130" class="status">임시 토큰 받음</text>
+              </g>
+            </g>
+            <g class="appear" style="--cue:5.06s">
+              <g class="disappear" style="--cue:8.26s">
+                <g class="utterance">
+                  <g transform="translate(29 124)" class="disappear" style="--cue:7.23s">
+                    <g class="bars">
+                      <rect x="-8.0" y="-5.0" width="4" height="10" rx="2" fill="#BC002D"/>
+                      <rect x="-2.0" y="-9.0" width="4" height="18" rx="2" fill="#BC002D"/>
+                      <rect x="4.0" y="-6.5" width="4" height="13" rx="2" fill="#BC002D"/>
+                    </g>
+                  </g>
+                  <text x="52" y="131" class="field">예약했어요.</text>
+                </g>
+              </g>
+            </g>
+            <g class="arrive" style="--cue:8.26s">
+              <g class="received">
+                <rect x="15" y="104" width="258" height="39" rx="9" fill="#FBECEF"/>
+                <text x="23" y="133" class="japanese" xml:lang="ja">予約しました。</text>
+              </g>
+            </g>
+          </g>
+          <g class="link-a">
+            <g class="turn-voice">
+              <g class="nudge" style="--cue:7.94s">
+                <g class="nudge" style="--cue:5.15s">
+                  <g class="nudge" style="--cue:3.14s">
+                    <g class="nudge" style="--cue:0.99s">
+                      <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                      <g class="signal" style="--cue:0.99s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                      <g class="signal" style="--cue:3.14s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                      <g class="signal" style="--cue:5.15s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                      <g class="signal" style="--cue:7.94s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="relay">
+            <g class="disappear" style="--cue:4.88s">
+              <g class="station" style="--cue:1.29s">
+                <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+                <g class="appear" style="--cue:1.29s">
+                  <g class="disappear" style="--cue:2.03s">
+                    <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                  </g>
+                </g>
+                <g class="appear" style="--cue:2.82s">
+                  <g class="disappear" style="--cue:3.5s">
+                    <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                  </g>
+                </g>
+                <use href="#vercel" x="18" y="14" width="26" height="26" color="#22262D"/>
+                <text x="55" y="36" class="service-name latin">Vercel</text>
+                <text x="18" y="65" class="code">speech-token</text>
+                <g class="arrive" style="--cue:1.36s">
+                  <g class="disappear" style="--cue:2.88s">
+                    <text x="18" y="90" class="status">토큰 요청 전달</text>
+                  </g>
+                </g>
+                <g class="arrive" style="--cue:2.88s">
+                  <g class="state-line">
+                    <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                    <text x="43" y="90" class="status">임시 토큰 전달</text>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <g class="arrive" style="--cue:4.92s">
+              <g class="direct-route">
+                <g class="disappear" style="--cue:7.26s">
+                  <g transform="translate(130 31)">
+                    <g class="bars">
+                      <rect x="-26.0" y="-5.5" width="4" height="11" rx="2" fill="#BC002D"/>
+                      <rect x="-18.0" y="-10.5" width="4" height="21" rx="2" fill="#BC002D"/>
+                      <rect x="-10.0" y="-16.5" width="4" height="33" rx="2" fill="#BC002D"/>
+                      <rect x="-2.0" y="-11.0" width="4" height="22" rx="2" fill="#BC002D"/>
+                      <rect x="6.0" y="-18.0" width="4" height="36" rx="2" fill="#BC002D"/>
+                      <rect x="14.0" y="-9.5" width="4" height="19" rx="2" fill="#BC002D"/>
+                      <rect x="22.0" y="-5.5" width="4" height="11" rx="2" fill="#BC002D"/>
+                    </g>
+                  </g>
+                </g>
+                <g class="appear" style="--cue:7.78s">
+                  <use href="#check" x="117" y="18" width="26" height="26" color="#BC002D"/>
+                </g>
+                <text x="130" y="66" class="service-name center">브라우저 직접 연결</text>
+                <g class="disappear" style="--cue:7.26s">
+                  <text x="130" y="93" class="detail center">마이크 음성 전송</text>
+                </g>
+                <g class="appear" style="--cue:7.78s">
+                  <text x="130" y="93" class="status center">번역문 수신</text>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="link-b">
+            <g class="turn-voice">
+              <g class="nudge" style="--cue:7.49s">
+                <g class="nudge" style="--cue:5.53s">
+                  <g class="nudge" style="--cue:2.5s">
+                    <g class="nudge" style="--cue:1.75s">
+                      <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#9BA6B5"/>
+                      <g class="signal" style="--cue:1.75s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                      <g class="signal" style="--cue:2.5s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                      <g class="signal" style="--cue:5.53s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                      <g class="signal" style="--cue:7.49s">
+                        <use href="#chevron" x="-15" y="-15" width="30" height="30" color="#BC002D"/>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+          <g class="destination">
+            <g class="station" style="--cue:2.03s">
+              <rect x="0" y="0" width="260" height="106" rx="17" fill="#F5F6F8"/>
+              <g class="appear" style="--cue:2.03s">
+                <g class="disappear" style="--cue:2.82s">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <g class="appear" style="--cue:5.86s">
+                <g class="disappear" style="--cue:7.78s">
+                  <rect x="0" y="0" width="260" height="106" rx="17" fill="#FBECEF"/>
+                </g>
+              </g>
+              <use href="#wave" x="18" y="14" width="26" height="26" color="#22262D"/>
+              <text x="55" y="36" class="service-name latin">Azure Speech</text>
+              <g class="disappear" style="--cue:4.92s">
+                <text x="18" y="65" class="detail">임시 토큰 발급</text>
+              </g>
+              <g class="appear" style="--cue:4.92s">
+                <text x="18" y="65" class="detail">음성 번역 · 일본어 읽기</text>
+              </g>
+              <g class="arrive" style="--cue:2.1s">
+                <g class="disappear" style="--cue:4.86s">
+                  <g class="state-line">
+                    <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                    <text x="43" y="90" class="status">토큰 발급됨</text>
+                  </g>
+                </g>
+              </g>
+              <g class="arrive" style="--cue:5.94s">
+                <g class="disappear" style="--cue:7.26s">
+                  <text x="18" y="90" textLength="82" class="status">음성 받는 중</text>
+                  <circle class="spinner" cx="116" cy="84" r="7" pathLength="100" aria-hidden="true"/>
+                </g>
+              </g>
+              <g class="arrive" style="--cue:7.26s">
+                <g class="state-line appear">
+                  <use href="#check" x="18" y="76" width="17" height="17" color="#BC002D"/>
+                  <text x="43" y="90" class="status">음성 번역 완료</text>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
   </g>
 </svg>

@@ -158,12 +158,33 @@
     }
   }
 
+  function checkComposition(doc, original) {
+    const maps = [...doc.querySelectorAll(".map")].filter(map => matches(map, "읽기"));
+    if (maps.length !== 1) throw Error("상단 전체도가 하나만 보여야 합니다.");
+    const [map] = maps;
+    if (map.querySelectorAll(":scope > use").length !== 3 || map.getAnimations({subtree: true}).length)
+      throw Error("상단에 세 카드의 정적 연결도가 필요합니다.");
+    const content = doc.querySelector(".content");
+    if (!original.isEqualNode(content)) throw Error("하단 네 장면이 단독 SVG와 다릅니다.");
+    const steps = content.getBoundingClientRect();
+    const canvas = doc.documentElement.getBoundingClientRect();
+    if (!steps.height || map.getBoundingClientRect().bottom >= steps.top || steps.bottom > canvas.bottom + 1)
+      throw Error("전체도와 장면이 겹치거나 캔버스 밖으로 나갑니다.");
+  }
+
   try {
     const log = [];
     for (const name of Object.keys(scenes)) {
       for (const [file, width] of [[name, 1024], [name, 390], [name + "-mobile", 390]]) {
         await check(name, file, width);
         log.push(`${file}.svg · ${width}px 통과`);
+        if (name === "architecture-steps") {
+          const original = viewer.contentDocument.querySelector(".content");
+          const combined = file.replace("-steps", "");
+          await check(name, combined, width);
+          checkComposition(viewer.contentDocument, original);
+          log.push(`${combined}.svg · ${width}px 통과`);
+        }
       }
     }
     result.textContent = log.join("\n");
