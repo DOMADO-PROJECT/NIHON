@@ -158,18 +158,48 @@
     }
   }
 
+  function checkMapTiming(doc, map) {
+    const animations = doc.getAnimations();
+    const parts = [...map.querySelectorAll(".node, .wire")];
+    // 같은 시점에 보이는 하단 장면과 상단에서 강조되는 카드·연결선.
+    const cues = [
+      [6.8, "scene-local", "browser"],
+      [12.2, "scene-offline", "browser"],
+      [13.4, "scene-offline", "browser", "browser-vercel"],
+      [14.2, "scene-offline", "vercel", "browser-vercel"],
+      [21.9, "scene-text", "vercel", "browser-vercel"],
+      [24.2, "scene-text", "azure", "browser-vercel", "vercel-azure"],
+      [32.25, "scene-voice", "vercel", "browser-vercel", "vercel-azure"],
+      [34.9, "scene-voice", "browser"],
+      [35.2, "scene-voice", "browser", "voice-direct"],
+      [36.5, "scene-voice", "azure", "voice-direct"],
+      [40.5, "scene-local", "browser"]
+    ];
+    for (const [seconds, scene, ...expected] of cues) {
+      for (const animation of animations) animation.currentTime = seconds * 1000;
+      if (!matches(doc.getElementById(scene), "보임")) throw Error(`${seconds}초 · ${scene} 장면 전환`);
+      const active = new Set(parts.filter(part => {
+        const style = getComputedStyle(part);
+        return style.fill === "rgb(248, 237, 240)" || style.stroke === "rgb(88, 108, 129)";
+      }));
+      if (active.size !== expected.length || expected.some(name => !active.has(map.querySelector("." + name))))
+        throw Error(`${seconds}초 · ${scene} · 상단 강조 ${expected.join(", ")}`);
+    }
+  }
+
   function checkComposition(doc, original) {
     const maps = [...doc.querySelectorAll(".map")].filter(map => matches(map, "읽기"));
     if (maps.length !== 1) throw Error("상단 전체도가 하나만 보여야 합니다.");
     const [map] = maps;
-    if (map.querySelectorAll(":scope > use").length !== 3 || map.getAnimations({subtree: true}).length)
-      throw Error("상단에 세 카드의 정적 연결도가 필요합니다.");
+    if (map.querySelectorAll(":scope > use").length !== 3 || map.querySelectorAll(".wire").length !== 3)
+      throw Error("상단 전체도에 카드 세 개와 연결선 세 개가 필요합니다.");
     const content = doc.querySelector(".content");
     if (!original.isEqualNode(content)) throw Error("하단 네 장면이 단독 SVG와 다릅니다.");
     const steps = content.getBoundingClientRect();
     const canvas = doc.documentElement.getBoundingClientRect();
     if (!steps.height || map.getBoundingClientRect().bottom >= steps.top || steps.bottom > canvas.bottom + 1)
       throw Error("전체도와 장면이 겹치거나 캔버스 밖으로 나갑니다.");
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) checkMapTiming(doc, map);
   }
 
   async function checkDesktopImage(file, x, y, expected) {
@@ -189,7 +219,7 @@
 
   try {
     const log = [];
-    await checkDesktopImage("architecture", 90, 123, [239, 242, 245, 255]); // 왼쪽 브라우저 카드
+    await checkDesktopImage("architecture", 34, 34, [188, 0, 45, 255]); // 데스크톱 로고의 붉은 바탕
     await checkDesktopImage("performance", 20, 401, [255, 255, 255, 255]); // 측정 수치 영역 위의 흰 여백
     log.push("architecture.svg · 데스크톱 이미지 통과", "performance.svg · 데스크톱 이미지 통과");
     for (const name of Object.keys(scenes)) {

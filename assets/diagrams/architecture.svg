@@ -1,17 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="720" viewBox="0 0 1024 720" preserveAspectRatio="none" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="692" viewBox="0 0 1024 692" preserveAspectRatio="none" role="img" aria-labelledby="title" aria-describedby="desc" xml:lang="ko">
   <title id="title">NIHON · 시스템 구조와 기능별 처리 흐름</title>
   <desc id="desc">위에는 여행자 브라우저, Vercel, Azure의 연결 구조가 있고 아래에는 기능별 처리 흐름이 있습니다. 브라우저는 Vercel에서 Next.js 정적 화면을 받아 수록 회화를 찾습니다. 저장한 표현과 대화 기록은 localStorage에, 오프라인 화면과 MP3는 서비스 워커가 Cache Storage에 보관합니다. 수록되지 않은 문장은 Vercel의 text-translation을 거쳐 Azure Translator에서 번역합니다. 음성은 Vercel의 speech-token을 통해 Azure의 임시 토큰을 받은 뒤 브라우저가 Azure Speech와 직접 주고받습니다.</desc>
   <style>
-    :root { display: block; max-width: 100%; height: auto; margin-inline: auto; }
+    :root { --story-cycle: 40s; display: block; max-width: 100%; height: auto; margin-inline: auto; }
     text { font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; letter-spacing: -.35px; }
     .en { font-family: "Helvetica Neue", Arial, sans-serif; letter-spacing: 1.15px; }
     .map { fill: #24272D; color: #344154; text-anchor: middle; }
-    .node-title { font-size: 22px; font-weight: 700; }
+    .map .node { fill: #F5F7F9; color: #445469; }
+    .node-title { fill: #24272D; font-size: 22px; font-weight: 700; }
     .node-detail { font-size: 16px; fill: #4B5B72; }
     .wire { fill: none; stroke: #8290A2; stroke-width: 1.4; stroke-linecap: round; marker-start: url(#arrow); marker-end: url(#arrow); }
     .direct { stroke-width: 1.25; }
     .direct-label { font-size: 14px; font-weight: 520; fill: #59687B; }
-    .content { transform: translateY(272px); }
+    .content { transform: translateY(244px); }
     .chapter-name { font-size: 21px; font-weight: 720; fill: #BC002D; }
     .headline, .overview-title { font-weight: 740; }
     .service-name { font-size: 23px; font-weight: 700; }
@@ -57,11 +58,18 @@
     .map-row:nth-child(3) { transform: translate(0px, 119px); }
     .map-row:nth-child(4) { transform: translate(480px, 119px); }
     @media screen and (prefers-reduced-motion: no-preference) {
+      .map .node, .map .wire { animation-duration: var(--story-cycle); animation-timing-function: linear; animation-iteration-count: infinite; }
+      .map .browser { animation-name: map-browser; }
+      .map .vercel { animation-name: map-vercel; }
+      .map .azure { animation-name: map-azure; }
+      .map .browser-vercel { animation-name: map-browser-vercel; }
+      .map .vercel-azure { animation-name: map-vercel-azure; }
+      .map .voice-direct { animation-name: map-voice-direct; }
       .overview { display: none; }
       .stories { display: inline; }
       /* 네 장면이 10초씩 같은 시계를 쓴다. --cue는 각 장면 안에서의 시간이다. */
       .scene, .appear, .arrive, .disappear, .press, .station, .nudge, .signal, .meter, .turn-text, .turn-voice {
-        animation-duration: 40s;
+        animation-duration: var(--story-cycle);
         animation-delay: calc(var(--start) + var(--cue, 0s));
         animation-timing-function: cubic-bezier(.2, .8, .2, 1);
         animation-fill-mode: both;
@@ -84,6 +92,30 @@
       .bars rect { animation: wave 640ms ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
       .bars rect:nth-child(3n+2) { animation-delay: -210ms; }
       .bars rect:nth-child(3n) { animation-delay: -410ms; }
+    }
+    @keyframes map-browser {
+      34.15%, 38.375%, 54.45%, 68.5%, 78.625%, 83.75%, 90.05%, 95.65% { fill: #F5F7F9; color: #445469; }
+      0%, 33.75%, 38.775%, 54.05%, 68.9%, 78.225%, 84.15%, 89.65%, 96.05%, 100% { fill: #F8EDF0; color: #914358; }
+    }
+    @keyframes map-vercel {
+      0%, 33.75%, 38.775%, 54.05%, 58.1%, 65.45%, 68.9%, 78.225%, 84.15%, 100% { fill: #F5F7F9; color: #445469; }
+      34.15%, 38.375%, 54.45%, 57.7%, 65.85%, 68.5%, 78.625%, 83.75% { fill: #F8EDF0; color: #914358; }
+    }
+    @keyframes map-azure {
+      0%, 57.7%, 65.85%, 89.65%, 96.05%, 100% { fill: #F5F7F9; color: #445469; }
+      58.1%, 65.45%, 90.05%, 95.65% { fill: #F8EDF0; color: #914358; }
+    }
+    @keyframes map-browser-vercel {
+      0%, 32.875%, 38.775%, 53.25%, 68.9%, 77.475%, 84.15%, 100% { stroke: #8290A2; stroke-width: 1.4; }
+      33.275%, 38.375%, 53.65%, 68.5%, 77.875%, 83.75% { stroke: #586C81; stroke-width: 2.2; }
+    }
+    @keyframes map-vercel-azure {
+      0%, 56.75%, 65.85%, 79.375%, 82.45%, 100% { stroke: #8290A2; stroke-width: 1.4; }
+      57.15%, 65.45%, 79.775%, 82.05% { stroke: #586C81; stroke-width: 2.2; }
+    }
+    @keyframes map-voice-direct {
+      0%, 87.3%, 96.05%, 100% { stroke: #8290A2; stroke-width: 1.25; }
+      87.7%, 95.65% { stroke: #586C81; stroke-width: 1.9; }
     }
     @keyframes chapter {
       0%, 24.99% { opacity: .75; visibility: visible; }
@@ -132,11 +164,11 @@
     /* 단독 SVG에서만 모바일 배치로 전환하고 README에서는 picture가 파일을 고른다. */
     @media (scripting: enabled) and (max-device-width: 640px) and (min-height: 460px),
            (scripting: enabled) and (max-width: 640px) and (min-height: 460px) {
-      :root { width: 100vw; max-width: none; height: 302vw; }
-      .canvas { transform: scale(calc(1024 / 400), calc(720 / 1208)); }
+      :root { width: 100vw; max-width: none; height: 281vw; }
+      .canvas { transform: scale(calc(1024 / 400), calc(692 / 1124)); }
       .wide-layout { display: none; }
       .portrait-layout { display: inline; }
-      .content { transform: translateY(568px); }
+      .content { transform: translateY(484px); }
       .chapter-label { transform: translate(24px, 77px); }
       .headline { transform: translate(24px, 141px); }
       .client { transform: translate(56px, 168px); }
@@ -190,28 +222,25 @@
     </marker>
 
     <g id="browser-node">
-      <rect width="228" height="136" rx="16" fill="#EFF2F5"/>
+      <rect width="228" height="108" rx="16"/>
       <use href="#browser" x="104" y="14" width="20" height="20"/>
       <text class="node-title" x="114" y="62">여행자 브라우저</text>
-      <text class="node-detail" x="114" y="93">수록 회화 검색 · 표현 저장</text>
-      <text class="node-detail" x="114" y="117">화면과 음원 오프라인 보관</text>
+      <text class="node-detail" x="114" y="88">수록 회화 검색 · 기기 저장</text>
     </g>
     <g id="vercel-node">
-      <rect width="228" height="136" rx="16" fill="#F5F6F8"/>
+      <rect width="228" height="108" rx="16"/>
       <use href="#vercel" x="104" y="14" width="20" height="20"/>
       <text class="node-title latin" x="114" y="62">Vercel</text>
-      <text class="node-detail" x="114" y="93">화면과 MP3 배포</text>
-      <text class="node-detail" x="114" y="117">번역 요청 · 임시 토큰 중계</text>
+      <text class="node-detail" x="114" y="88">파일 배포 · 번역 요청 중계</text>
     </g>
     <g id="azure-node">
-      <rect width="228" height="136" rx="16" fill="#F5F6F8"/>
+      <rect width="228" height="108" rx="16"/>
       <use href="#cloud" x="103" y="13" width="22" height="22"/>
       <text class="node-title latin" x="114" y="62">Azure</text>
-      <text class="node-detail" x="114" y="93">Translator · 문자 번역</text>
-      <text class="node-detail" x="114" y="117">Speech · 음성 번역과 읽기</text>
+      <text class="node-detail" x="114" y="88">문자 번역 · 음성 번역과 읽기</text>
     </g>
   </defs>
-  <rect width="1024" height="720" fill="#FFFFFF"/>
+  <rect width="1024" height="692" fill="#FFFFFF"/>
   <g class="canvas">
     <g class="wide-layout">
       <g id="diagram-header">
@@ -222,15 +251,15 @@
         <path d="M32 66H992" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
       <g class="map">
-        <use href="#browser-node" x="70" y="102"/>
-        <path class="wire" d="M321 170H375"/>
-        <use href="#vercel-node" x="398" y="102"/>
-        <path class="wire" d="M649 170H703"/>
-        <use href="#azure-node" x="726" y="102"/>
-        <path class="wire direct" d="M184 246V263Q184 277 198 277H826Q840 277 840 263V246"/>
-        <text class="direct-label" x="512" y="302">토큰 발급 후 음성 직접 연결</text>
+        <use class="node browser" href="#browser-node" x="70" y="102"/>
+        <path class="wire browser-vercel" d="M321 156H375"/>
+        <use class="node vercel" href="#vercel-node" x="398" y="102"/>
+        <path class="wire vercel-azure" d="M649 156H703"/>
+        <use class="node azure" href="#azure-node" x="726" y="102"/>
+        <path class="wire direct voice-direct" d="M184 218V235Q184 249 198 249H826Q840 249 840 235V218"/>
+        <text class="direct-label" x="512" y="274">토큰 발급 후 음성 직접 연결</text>
       </g>
-      <path d="M32 338H992" fill="none" stroke="#E1E5EA"/>
+
     </g>
     <g class="portrait-layout" display="none">
       <g id="portrait-diagram-header">
@@ -241,15 +270,15 @@
         <path d="M18 56H382" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
       <g class="map">
-        <use href="#browser-node" x="86" y="80"/>
-        <path class="wire" d="M200 223V241"/>
-        <use href="#vercel-node" x="86" y="248"/>
-        <path class="wire" d="M200 391V409"/>
-        <use href="#azure-node" x="86" y="416"/>
-        <path class="wire direct" d="M322 148H340Q354 148 354 162V564Q354 578 340 578H214Q200 578 200 564V560"/>
-        <text class="direct-label" x="277" y="600">토큰 발급 후 음성 직접 연결</text>
+        <use class="node browser" href="#browser-node" x="86" y="80"/>
+        <path class="wire browser-vercel" d="M200 195V213"/>
+        <use class="node vercel" href="#vercel-node" x="86" y="220"/>
+        <path class="wire vercel-azure" d="M200 335V353"/>
+        <use class="node azure" href="#azure-node" x="86" y="360"/>
+        <path class="wire direct voice-direct" d="M322 134H340Q354 134 354 148V480Q354 494 340 494H214Q200 494 200 480V476"/>
+        <text class="direct-label" x="277" y="516">토큰 발급 후 음성 직접 연결</text>
       </g>
-      <path d="M18 624H382" fill="none" stroke="#E1E5EA"/>
+
     </g>
     <!-- 아래 네 장면은 단독 이미지 architecture-steps.svg와 같은 내용과 타이밍을 쓴다. -->
     <g class="content" fill="#22262D">
