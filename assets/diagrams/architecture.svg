@@ -129,8 +129,9 @@
     @keyframes wave { from { transform: scaleY(.4); } to { transform: scaleY(1); } }
     @keyframes spin { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
     .portrait-layout { display: none; }
-    /* 단독 SVG의 고정 viewBox 안에서도 400 × 1208 모바일 좌표를 그대로 쓴다. */
-    @media (max-device-width: 640px) and (min-height: 460px), (max-width: 640px) and (min-height: 460px) {
+    /* 단독 SVG에서만 모바일 배치로 전환하고 README에서는 picture가 파일을 고른다. */
+    @media (scripting: enabled) and (max-device-width: 640px) and (min-height: 460px),
+           (scripting: enabled) and (max-width: 640px) and (min-height: 460px) {
       :root { width: 100vw; max-width: none; height: 302vw; }
       .canvas { transform: scale(calc(1024 / 400), calc(720 / 1208)); }
       .wide-layout { display: none; }

@@ -172,8 +172,26 @@
       throw Error("전체도와 장면이 겹치거나 캔버스 밖으로 나갑니다.");
   }
 
+  async function checkDesktopImage(file, x, y, expected) {
+    // SVG를 문서로 여는 iframe과 달리 이미지로 렌더링할 때의 배치를 확인한다.
+    const image = new Image();
+    image.src = "../assets/diagrams/" + file + ".svg";
+    await image.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d");
+    context.drawImage(image, 0, 0);
+    const pixel = context.getImageData(x, y, 1, 1).data;
+    if (!pixel.every((channel, index) => channel === expected[index]))
+      throw Error(file + " · 이미지에서 데스크톱 배치 확인 실패");
+  }
+
   try {
     const log = [];
+    await checkDesktopImage("architecture", 90, 123, [239, 242, 245, 255]); // 왼쪽 브라우저 카드
+    await checkDesktopImage("performance", 20, 401, [255, 255, 255, 255]); // 측정 수치 영역 위의 흰 여백
+    log.push("architecture.svg · 데스크톱 이미지 통과", "performance.svg · 데스크톱 이미지 통과");
     for (const name of Object.keys(scenes)) {
       for (const [file, width] of [[name, 1024], [name, 390], [name + "-mobile", 390]]) {
         await check(name, file, width);
