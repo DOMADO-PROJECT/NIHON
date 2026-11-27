@@ -233,7 +233,7 @@
       <text x="382" y="35" font-size="12" font-weight="520" fill="#5E6877" text-anchor="end">전체 구조 · 처리 흐름</text>
       <path d="M18 56H382" fill="none" stroke="#D5DAE0" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <g class="map">
+    <g class="map" transform="translate(0 10)">
       <use class="node browser" href="#browser-node" x="86" y="80"/>
       <use class="wire" href="#portrait-browser-vercel"/>
       <use class="flow browser-vercel" href="#portrait-browser-vercel"/>

@@ -235,8 +235,15 @@
     if (!original.isEqualNode(content)) throw Error("하단 네 장면이 단독 SVG와 다릅니다.");
     const steps = content.getBoundingClientRect();
     const canvas = doc.documentElement.getBoundingClientRect();
-    if (!steps.height || map.getBoundingClientRect().bottom >= steps.top || steps.bottom > canvas.bottom + 1)
-      throw Error("전체도와 장면이 겹치거나 캔버스 밖으로 나갑니다.");
+    const bounds = map.getBoundingClientRect();
+    const header = map.previousElementSibling.getBoundingClientRect();
+    const unit = map.getScreenCTM().d;
+    const above = (bounds.top - header.bottom) / unit;
+    const below = (steps.top - bounds.bottom) / unit;
+    const minGap = map.closest(".wide-layout") ? 40 : 28;
+    if (Math.min(above, below) < minGap)
+      throw Error(`전체도 위 ${above.toFixed(1)}px / 아래 ${below.toFixed(1)}px 여백`);
+    if (!steps.height || steps.bottom > canvas.bottom + 1) throw Error("장면이 캔버스 밖으로 나갑니다.");
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
       if (flows.some(flow => !matches(flow, "숨김"))) throw Error("동작 줄이기 · 이동 표시");
     } else checkMapTiming(doc, map);
